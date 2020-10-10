@@ -49,9 +49,6 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'lib', includes: ['*jar'])
-    compile group: 'com.softwareloop', name: 'mybatis-generator-lombok-plugin', version: '1.0'
-    compile group: 'uk.com.robust-it', name: 'cloning', version: '1.9.2'
     testCompile "junit:junit:4.12"
     compileOnly "org.projectlombok:lombok:1.18.0"
 }
