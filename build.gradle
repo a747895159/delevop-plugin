@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {url "https://oss.sonatype.org/content/repositories/snapshots/"}
+        maven {url 'https://dl.bintray.com/jetbrains/intellij-plugin-service'}
+        maven {url 'https://dl.bintray.com/jetbrains/intellij-third-party-dependencies/'}
+    }
+   /* dependencies {
+        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.5.0-SNAPSHOT"
+    }*/
+}
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.5.0'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+intellij {
+    version '2019.3'
+
+//    type 'IC'  // 社区版
+//    plugins = ['java'] //Bundled plugin dependencies
+    type 'IU' // 企业版
+    plugins = ['java', 'Spring', 'DatabaseTools'] //Bundled plugin dependencies
+
+    pluginName 'develop-plugin'
+    sandboxDirectory = "${rootProject.rootDir}/idea-sandbox"
+
+    updateSinceUntilBuild = false
+
+    publishPlugin {
+        username project.hasProperty('publishUsername') ? project.property('publishUsername') : ''
+        password project.hasProperty('publishPassword') ? project.property('publishPassword') : ''
+    }
+}
+
+
+group 'com.person.develop.plugin'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile fileTree(dir: 'lib', includes: ['*jar'])
+    compile group: 'com.softwareloop', name: 'mybatis-generator-lombok-plugin', version: '1.0'
+    compile group: 'uk.com.robust-it', name: 'cloning', version: '1.9.2'
+    testCompile "junit:junit:4.12"
+    compileOnly "org.projectlombok:lombok:1.18.0"
+}
+
+patchPluginXml {
+    changeNotes """
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>"""
+}
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

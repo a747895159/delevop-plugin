@@ -1,0 +1,54 @@
+<idea-plugin>
+    <id>com.person.develop.plugin</id>
+    <name>developPlugin</name>
+    <version>1.0</version>
+    <vendor email="747895159@qq.com" url="#">Test</vendor>
+    <description>
+        插件利器，develop-plugin ：SpringMVC Rest Controller 转换为markdown格式文档;
+    </description>
+
+    <change-notes>
+        <![CDATA[
+      <li>1.0 - First revision.....REST API Document generate By RestController from SpringMVC</li>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- EditorPopupMenu  直接右键菜单、 GenerateGroup  右键菜单生成组 -->
+
+        <!-- bean转换 markdown 语法  分组到Generate 菜单下-->
+        <action id="RestControllerDocAction" class="org.zb.plugin.action.RestControllerDocAction" text="Rest2Doc">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+        </action>
+
+        <!-- bean转换 json 语法   分组到Generate 菜单下-->
+        <action id="Bean2JsonAction" class="org.zb.plugin.action.Bean2JsonAction" text="bean2Json"
+                description="Java Bean Convert to Json">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+        </action>
+
+        <!-- idea  tools 工具栏菜单设置 -->
+        <!--
+        <group id="Java2JsonMenu" text="Rest2JsonDoc" popup="true">
+          <add-to-group group-id="ToolsMenu" anchor="last"/>
+          <action class="org.zb.plugin.bean2Json.Java2MarkDownDocAction" id="menu_comment" text="Must Input" icon="AllIcons.Actions.Checked"/>
+        </group>
+        -->
+
+
+    </actions>
+
+</idea-plugin>
