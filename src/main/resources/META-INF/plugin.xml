@@ -1,29 +1,34 @@
 <idea-plugin>
     <id>com.person.develop.plugin</id>
     <name>developPlugin</name>
-    <version>1.0</version>
-    <vendor email="747895159@qq.com" url="#">Test</vendor>
+    <version>1.0.2</version>
+    <vendor email="747895159@qq.com" url="#">developPlugin</vendor>
     <description>
-        插件利器，develop-plugin ：SpringMVC Rest Controller 转换为markdown格式文档;
+        <![CDATA[
+        <tag> develop plugin,code generate,code tools</tag>
+       <ul>
+          <li>1.generate markdown Rest Http doc </li>
+          <li>2.pojo object convert json</li>
+      </ul>
+
+      ]]>
     </description>
 
     <change-notes>
         <![CDATA[
-      <li>1.0 - First revision.....REST API Document generate By RestController from SpringMVC</li>
+      <li>1.0.0 - init Related functions</li>
+      <li>1.0.2 - optimization notes</li>
     ]]>
     </change-notes>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="173.0"/>
-
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
-    <!-- uncomment to enable plugin in all products
-    <depends>com.intellij.modules.lang</depends>
-    -->
+    <idea-version since-build="191.0"/>
+    <depends>com.intellij.java</depends>
+    <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <projectService serviceInterface="org.zb.plugin.restdoc.checker.EventChecker" serviceImplementation="org.zb.plugin.restdoc.checker.impl.ClassSelectedChecker"/>
+
     </extensions>
 
     <actions>

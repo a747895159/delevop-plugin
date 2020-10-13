@@ -24,7 +24,7 @@ intellij {
 //    type 'IC'  // 社区版
 //    plugins = ['java'] //Bundled plugin dependencies
     type 'IU' // 企业版
-    plugins = ['java', 'Spring', 'DatabaseTools'] //Bundled plugin dependencies
+    plugins = ['java'] //Bundled plugin dependencies
 
     pluginName 'develop-plugin'
     sandboxDirectory = "${rootProject.rootDir}/idea-sandbox"
@@ -32,14 +32,18 @@ intellij {
     updateSinceUntilBuild = false
 
     publishPlugin {
+        token "perm:YTc0Nzg5NTE1OQ==.OTItMjY5MQ==.OcYBVxVmd2ZO6Ofi0yGYbsaLakz618"
+    }
+
+    /*publishPlugin {
         username project.hasProperty('publishUsername') ? project.property('publishUsername') : ''
         password project.hasProperty('publishPassword') ? project.property('publishPassword') : ''
-    }
+    }*/
 }
 
 
 group 'com.person.develop.plugin'
-version '1.0-SNAPSHOT'
+version '1.0.2'
 
 sourceCompatibility = 1.8
 
@@ -53,11 +57,6 @@ dependencies {
     compileOnly "org.projectlombok:lombok:1.18.0"
 }
 
-patchPluginXml {
-    changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
-}
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
