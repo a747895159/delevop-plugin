@@ -12,4 +12,8 @@
 -  1.支持 Map 等类型
 -  2.支持int Object 多参数,多注解 请求方式 
   
-  
+##打包方式
+
+-- 1.找打develop-plugin -> Tasks -> build 目录下
+-- 2.先进行clean、 然后再 进行build
+-- 3.然后到Build下 libs 下 找打jar

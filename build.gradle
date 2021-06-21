@@ -19,7 +19,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 intellij {
-    version '2019.3'
+    version '2020.2'
 
 //    type 'IC'  // 社区版
 //    plugins = ['java'] //Bundled plugin dependencies

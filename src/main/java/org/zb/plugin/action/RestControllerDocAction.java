@@ -22,6 +22,7 @@ import org.zb.plugin.restdoc.utils.MyPsiSupport;
 import org.zb.plugin.restdoc.utils.ToolUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -117,6 +118,17 @@ public class RestControllerDocAction extends AnAction {
                 parser.parseDefinition();
                 list.add(parser.getDefinition());
             });
+        }
+        list.sort(Comparator.comparing(RestFulDefinition::getUri, Comparator.nullsFirst(Comparator.naturalOrder())));
+        if (list.size() > 1) {
+            int index = 1;
+            for (RestFulDefinition restFulDefinition : list) {
+                if(restFulDefinition.getMethodDefinition()!=null){
+                    restFulDefinition.getMethodDefinition().setTitle(index + "." + restFulDefinition.getMethodDefinition().getTitle());
+                }
+
+                index++;
+            }
         }
         return list;
     }
