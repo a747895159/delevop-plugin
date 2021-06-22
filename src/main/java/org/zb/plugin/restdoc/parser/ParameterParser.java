@@ -91,7 +91,8 @@ public class ParameterParser extends Parser {
 
         boolean require = MyPsiSupport.getPsiAnnotation(psiParameter, CommonConstant.CONSTRAINTS_NOTNULL) != null
                 || MyPsiSupport.getPsiAnnotation(psiParameter, CommonConstant.CONSTRAINTS_NOTBLANK) != null
-                || MyPsiSupport.getPsiAnnotation(psiParameter, CommonConstant.CONSTRAINTS_NOTMPTY) != null;
+                || MyPsiSupport.getPsiAnnotation(psiParameter, CommonConstant.CONSTRAINTS_NOTMPTY) != null
+                || MyPsiSupport.getPsiAnnotation(psiParameter, CommonConstant.CONSTRAINTS_NOTBLANK2) != null;
 
         definition.setRequire(require);
         return definition;

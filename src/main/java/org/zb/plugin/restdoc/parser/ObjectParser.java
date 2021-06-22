@@ -129,7 +129,8 @@ public class ObjectParser extends Parser {
         String name = psiField.getName();
         boolean require = MyPsiSupport.getPsiAnnotation(psiField, CommonConstant.CONSTRAINTS_NOTNULL) != null
                 || MyPsiSupport.getPsiAnnotation(psiField, CommonConstant.CONSTRAINTS_NOTBLANK) != null
-                || MyPsiSupport.getPsiAnnotation(psiField, CommonConstant.CONSTRAINTS_NOTMPTY) != null;
+                || MyPsiSupport.getPsiAnnotation(psiField, CommonConstant.CONSTRAINTS_NOTMPTY) != null
+                || MyPsiSupport.getPsiAnnotation(psiField, CommonConstant.CONSTRAINTS_NOTBLANK2) != null;
         definition.setLayer(layer);
         definition.setName(name);
         definition.setDesc(dec);
