@@ -67,7 +67,7 @@ public class RestDocumentGenerator {
     }
 
     public String requestPart() {
-        StringBuilder sb = new StringBuilder("###请求参数\n \n");
+        StringBuilder sb = new StringBuilder("### 请求参数\n \n");
         List<FieldDefinition> fieldDefinitions = this.definition.getRequest();
         if (fieldDefinitions == null || fieldDefinitions.isEmpty()) {
             sb.append("- 无参数\n");
@@ -81,7 +81,7 @@ public class RestDocumentGenerator {
     }
 
     public String responsePart() {
-        StringBuilder sb = new StringBuilder("###响应参数\n \n");
+        StringBuilder sb = new StringBuilder("### 响应参数\n \n");
         List<FieldDefinition> fieldDefinitions = this.definition.getResponse();
         if (fieldDefinitions == null || fieldDefinitions.isEmpty()) {
             if (TransTypeEnum.VOID == definition.getMethodDefinition().getRtnTypeEnum()) {
@@ -157,7 +157,7 @@ public class RestDocumentGenerator {
         return "";
     }
     private String toJson(String title,Object o){
-        StringBuilder sb = new StringBuilder("###").append(title).append("\n \n");
+        StringBuilder sb = new StringBuilder("### ").append(title).append("\n \n");
         sb.append("```\n");
         sb.append(ToolUtil.toPrettyJson(o)).append("\n");
         sb.append("\n");
