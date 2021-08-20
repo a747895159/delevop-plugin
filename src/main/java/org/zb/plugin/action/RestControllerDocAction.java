@@ -67,6 +67,9 @@ public class RestControllerDocAction extends AnAction {
         try {
             List<RestFulDefinition> definitionList = parseSelected(anActionEvent);
             if (definitionList.size() != 0) {
+                if(definitionList.size()>1){
+                    sb.append("[TOC]").append("\n\n");
+                }
                 definitionList.forEach(definition -> {
                     RestDocumentGenerator generator = new RestDocumentGenerator(definition);
                     sb.append(generator.generate()).append("\n");
