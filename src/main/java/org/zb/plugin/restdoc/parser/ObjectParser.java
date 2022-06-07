@@ -1,11 +1,9 @@
 package org.zb.plugin.restdoc.parser;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiArrayType;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiType;
+import com.intellij.psi.*;
 import com.intellij.psi.util.PsiUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.zb.plugin.restdoc.constant.BaseTypeConstant;
 import org.zb.plugin.restdoc.constant.CommonConstant;
 import org.zb.plugin.restdoc.definition.ConvertFieldType;
@@ -131,6 +129,14 @@ public class ObjectParser extends Parser {
                 || MyPsiSupport.getPsiAnnotation(psiField, CommonConstant.CONSTRAINTS_NOTBLANK) != null
                 || MyPsiSupport.getPsiAnnotation(psiField, CommonConstant.CONSTRAINTS_NOTMPTY) != null
                 || MyPsiSupport.getPsiAnnotation(psiField, CommonConstant.CONSTRAINTS_NOTBLANK2) != null;
+
+        if(StringUtils.isBlank(dec)){
+            PsiAnnotation swaggerAnnotation = MyPsiSupport.getPsiAnnotation(psiField, CommonConstant.SWAGGER_DOC);
+            if(swaggerAnnotation!=null){
+                dec = MyPsiSupport.getPsiAnnotationValueByAttr(swaggerAnnotation, "value");
+            }
+        }
+
         definition.setLayer(layer);
         definition.setName(name);
         definition.setDesc(dec);

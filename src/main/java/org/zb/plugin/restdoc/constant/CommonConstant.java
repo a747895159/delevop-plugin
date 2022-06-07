@@ -18,6 +18,7 @@ public class CommonConstant {
             "javax.servlet.http.HttpServletResponse","org.springframework.web.servlet.ModelAndView");
 
 
+    public static final String SWAGGER_DOC = "io.swagger.annotations.ApiModelProperty";
 
 
 
