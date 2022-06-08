@@ -9,6 +9,7 @@ import org.zb.plugin.restdoc.constant.SpringConstant;
 import org.zb.plugin.restdoc.constant.TransTypeEnum;
 import org.zb.plugin.restdoc.definition.FieldDefinition;
 import org.zb.plugin.restdoc.definition.RestFulDefinition;
+import org.zb.plugin.restdoc.utils.ContentShowUtil;
 import org.zb.plugin.restdoc.utils.ToolUtil;
 
 import java.util.LinkedHashMap;
@@ -76,7 +77,7 @@ public class RestDocumentGenerator {
         sb.append("|参数名|类型|必选|说明|\n");
         sb.append("|:----    |:---|:----- |-----   |\n");
 
-        sb.append(this.fieldDefinitionTableBody(fieldDefinitions, true));
+        sb.append(ContentShowUtil.fieldDefinitionTableBody(fieldDefinitions, true));
         return sb.toString();
     }
 
@@ -99,44 +100,16 @@ public class RestDocumentGenerator {
         } else {
             sb.append("|参数名|类型|说明|\n");
             sb.append("|:----|:----|-----|\n");
-            sb.append(this.fieldDefinitionTableBody(fieldDefinitions, false));
+            sb.append(ContentShowUtil.fieldDefinitionTableBody(fieldDefinitions, false));
         }
         return sb.toString();
     }
 
-    public String fieldDefinitionTableBody(List<FieldDefinition> fieldDefinitions, boolean requireFlag) {
-        StringBuilder sb = new StringBuilder();
-        if (fieldDefinitions == null || fieldDefinitions.isEmpty()) {
-            return sb.toString();
-        }
-        for (FieldDefinition definition : fieldDefinitions) {
-            String layerChat = this.getLayerChat(definition.getLayer());
-            sb.append("|" + layerChat + definition.getName());
-            sb.append("|" + definition.getType());
-            if (requireFlag) {
-                sb.append("|" + (definition.isRequire() ? "是" : "否"));
-            }
-            sb.append("|" + definition.getDesc().replaceAll("\n", "<br>"));
-            sb.append("|\n");
-            if (definition.getSubFieldDefinitions() != null && !definition.getSubFieldDefinitions().isEmpty()) {
-                sb.append(this.fieldDefinitionTableBody(definition.getSubFieldDefinitions(), requireFlag));
-            }
-        }
-        return sb.toString();
-    }
-
-    public String getLayerChat(int layer) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < layer; i++) {
-            sb.append("- ");
-        }
-        return sb.toString();
-    }
 
     public String requestJsonExample() {
         if (definition.getRequest() != null && definition.getRequest().size() > 0 && definition.getRequestBodyTypeEnum() == BodyTypeEnum.RequestBody) {
             Map<String, Object> map = parseVal(definition.getRequest());
-            /**
+            /*
              * @RequestBody 目前只支持单对象注解 ,列表中必有值
              */
             TransTypeEnum transTypeEnum=definition.getMethodDefinition().getParamList().stream().

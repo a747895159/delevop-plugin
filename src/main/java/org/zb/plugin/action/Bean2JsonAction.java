@@ -13,14 +13,18 @@ import com.intellij.psi.util.PsiUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.zb.plugin.restdoc.constant.BaseTypeConstant;
 import org.zb.plugin.restdoc.constant.CommonConstant;
+import org.zb.plugin.restdoc.definition.FieldDefinition;
 import org.zb.plugin.restdoc.definition.KV;
 import org.zb.plugin.restdoc.delegate.DelegateFactory;
 import org.zb.plugin.restdoc.delegate.GeneratorDelegate;
+import org.zb.plugin.restdoc.parser.ObjectParser;
 import org.zb.plugin.restdoc.parser.translator.TypeTranslator;
+import org.zb.plugin.restdoc.utils.ContentShowUtil;
 import org.zb.plugin.restdoc.utils.MyPsiSupport;
 import org.zb.plugin.restdoc.utils.ToolUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * model转换Json
@@ -30,7 +34,7 @@ import java.util.ArrayList;
  */
 public class Bean2JsonAction extends AnAction {
 
-    public static boolean isShowComment = true;
+    public static boolean isShowComment = false;
 
     private GeneratorDelegate delegate;
 
@@ -51,11 +55,41 @@ public class Bean2JsonAction extends AnAction {
         try {
             KV kv = getFields(selectedClass);
             String json = kv.toPrettyJson();
-            ToolUtil.writeClipboard(json,project,selectedClass.getName(),"JSON");
+            String docDesc = genFieldDesc(selectedClass);
+            ToolUtil.writeClipboard(docDesc +"\n\n### 示例\n"+json,project,selectedClass.getName(),"JSON");
         } catch (Exception ex) {
             ToolUtil.LOGGER.error("Convert to JSON failed.\n",ex);
             ToolUtil.notifyMsg("Convert to JSON failed.\n",NotificationType.ERROR,project);
         }
+    }
+
+    private String genFieldDesc(PsiClass selectedClass){
+        PsiMethod[] allMethods = selectedClass.getAllMethods();
+        PsiMethod method = null;
+        for (PsiMethod psiMethod : allMethods) {
+            PsiType returnType = psiMethod.getReturnType();
+            if(returnType!=null ) {
+                PsiClass psiClass = PsiUtil.resolveClassInClassTypeOnly(returnType);
+                if (selectedClass == psiClass){
+                    method = psiMethod;
+                    break;
+                }
+            }
+        }
+        if(method!=null){
+            ObjectParser objectParser =new ObjectParser(method.getReturnType(),method.getProject(),0);
+            objectParser.parseDefinition();
+            List<FieldDefinition> fieldDefinitions = objectParser.getFieldDefinitions();
+            if (fieldDefinitions == null || fieldDefinitions.isEmpty()) {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder("### 参数\n \n");
+            sb.append("|参数名|类型|说明|\n");
+            sb.append("|:----    |:---|:----- |-----   |\n");
+            sb.append(ContentShowUtil.fieldDefinitionTableBody(fieldDefinitions,false));
+            return sb.toString();
+        }
+        return null;
     }
 
 
