@@ -11,6 +11,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.zb.plugin.restdoc.constant.BaseTypeConstant;
+import org.zb.plugin.restdoc.constant.CommonConstant;
 import org.zb.plugin.restdoc.constant.SpringConstant;
 import org.zb.plugin.restdoc.definition.ConvertFieldType;
 import org.zb.plugin.restdoc.definition.MethodDefinition;
@@ -417,6 +418,13 @@ public abstract class MyPsiSupport {
             md.setDesc(text.substring(text.indexOf("\n") + 1));
         } else {
             md.setTitle(text);
+        }
+        if(StringUtils.isBlank(text)){
+            PsiAnnotation methodSwaggerApi = MyPsiSupport.getPsiAnnotation(psiMethod, CommonConstant.SWAGGER_API);
+            if(methodSwaggerApi!=null){
+                text = MyPsiSupport.getPsiAnnotationValueByAttr(methodSwaggerApi, "value");
+                md.setTitle(text);
+            }
         }
         List<MethodDefinition.MethodTag> tagList = new ArrayList<>();
         if (psiMethod.getDocComment() != null) {

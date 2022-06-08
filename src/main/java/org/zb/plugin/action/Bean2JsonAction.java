@@ -56,7 +56,10 @@ public class Bean2JsonAction extends AnAction {
             KV kv = getFields(selectedClass);
             String json = kv.toPrettyJson();
             String docDesc = genFieldDesc(selectedClass);
-            ToolUtil.writeClipboard(docDesc +"\n\n### 示例\n"+json,project,selectedClass.getName(),"JSON");
+            if(docDesc!=null){
+                json = docDesc +"\n\n### 示例\n" +json;
+            }
+            ToolUtil.writeClipboard(json,project,selectedClass.getName(),"JSON");
         } catch (Exception ex) {
             ToolUtil.LOGGER.error("Convert to JSON failed.\n",ex);
             ToolUtil.notifyMsg("Convert to JSON failed.\n",NotificationType.ERROR,project);

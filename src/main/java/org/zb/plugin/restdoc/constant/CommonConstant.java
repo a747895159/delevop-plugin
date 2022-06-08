@@ -20,6 +20,8 @@ public class CommonConstant {
 
     public static final String SWAGGER_DOC = "io.swagger.annotations.ApiModelProperty";
 
+    public static final String SWAGGER_API =  "io.swagger.annotations.ApiOperation";
+
 
 
 
