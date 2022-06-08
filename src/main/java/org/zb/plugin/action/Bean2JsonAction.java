@@ -30,7 +30,7 @@ import java.util.ArrayList;
  */
 public class Bean2JsonAction extends AnAction {
 
-    public static boolean isShowComment = false;
+    public static boolean isShowComment = true;
 
     private GeneratorDelegate delegate;
 
@@ -79,7 +79,7 @@ public class Bean2JsonAction extends AnAction {
                             filedDesc = MyPsiSupport.getPsiAnnotationValueByAttr(swaggerAnnotation, "value");
                         }
                     }
-                    commentKV.set(name, filedDesc);
+                    commentKV.set(name, filedDesc==null?"":filedDesc);
                 }
                 //primitive Type
                 if (type instanceof PsiPrimitiveType) {
@@ -130,7 +130,7 @@ public class Bean2JsonAction extends AnAction {
             }
 
             if (isShowComment && commentKV.size() > 0) {
-                kv.set("@comment", commentKV);
+                kv.set("@属性描述", commentKV);
             }
         }
 
