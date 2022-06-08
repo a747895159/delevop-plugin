@@ -10,7 +10,9 @@ import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiTypesUtil;
 import com.intellij.psi.util.PsiUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.zb.plugin.restdoc.constant.BaseTypeConstant;
+import org.zb.plugin.restdoc.constant.CommonConstant;
 import org.zb.plugin.restdoc.definition.KV;
 import org.zb.plugin.restdoc.delegate.DelegateFactory;
 import org.zb.plugin.restdoc.delegate.GeneratorDelegate;
@@ -70,7 +72,14 @@ public class Bean2JsonAction extends AnAction {
                 }
                 //doc comment
                 if (field.getDocComment() != null && field.getDocComment().getText() != null) {
-                    commentKV.set(name, ToolUtil.clearDesc(field.getDocComment().getText()));
+                    String filedDesc = ToolUtil.clearDesc(field.getDocComment().getText());
+                    if(StringUtils.isBlank(filedDesc)){
+                        PsiAnnotation swaggerAnnotation = MyPsiSupport.getPsiAnnotation(field, CommonConstant.SWAGGER_DOC);
+                        if(swaggerAnnotation!=null){
+                            filedDesc = MyPsiSupport.getPsiAnnotationValueByAttr(swaggerAnnotation, "value");
+                        }
+                    }
+                    commentKV.set(name, filedDesc);
                 }
                 //primitive Type
                 if (type instanceof PsiPrimitiveType) {
