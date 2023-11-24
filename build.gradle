@@ -55,6 +55,11 @@ repositories {
 dependencies {
     testCompile "junit:junit:4.12"
     compileOnly "org.projectlombok:lombok:1.18.0"
+    implementation "org.seleniumhq.selenium:selenium-java:3.141.59"
+    implementation "org.seleniumhq.selenium:selenium-chrome-driver:3.141.59"
+    implementation "org.apache.commons:commons-lang3:3.5"
+    implementation "org.jsoup:jsoup:1.14.1"
+    implementation "commons-io:commons-io:2.5"
 }
 
 tasks.withType(JavaCompile) {
