@@ -97,6 +97,17 @@ public class HtmlHandlerUtil {
         }
     }
 
+    public static String parseHtmlTag(String html) {
+        Document ele = Jsoup.parseBodyFragment(html);
+        //获取正文内容元素
+        String content = H2MConvertUtil.getTextContent(ele);
+        if (content != null && content.contains(CATALOG)) {
+            String[] split = content.split(CATALOG);
+            content = CATALOG + "\n[TOC]\n" + split[1];
+        }
+        return content;
+    }
+
 
     public static String getTitle(Document doc, String titleSplit) {
         String title = H2MConvertUtil.fetchTitle(doc);
