@@ -9,7 +9,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
  *
  * @author : ZhouBin
  */
-public class H2MAction extends AnAction {
+public class Html2MarkdownAction extends AnAction {
 
 
     @Override
