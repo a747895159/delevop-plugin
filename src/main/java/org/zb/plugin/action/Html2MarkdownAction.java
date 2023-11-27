@@ -7,14 +7,11 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.MutablePair;
 import org.zb.plugin.html2md.Constant;
 import org.zb.plugin.html2md.HtmlHandlerUtil;
 import org.zb.plugin.restdoc.utils.ToolUtil;
 
-import java.io.FileOutputStream;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -48,9 +45,9 @@ public class Html2MarkdownAction extends AnAction {
         AtomicInteger sucNum = new AtomicInteger(0);
         try {
             if (input.startsWith("http")) {
-                parseUrl(filePath, input, sucNum);
+                HtmlHandlerUtil.outputFileByUrlList(filePath, input, sucNum);
             } else {
-                parseHtml(filePath, input);
+                HtmlHandlerUtil.outputFileByTag(filePath, input);
             }
         } catch (Exception e1) {
             String message = e1.getMessage();
@@ -64,31 +61,4 @@ public class Html2MarkdownAction extends AnAction {
 
     }
 
-    private void parseUrl(String filePath, String input, AtomicInteger sucNum) throws Exception {
-        String[] split = input.split("\n");
-        for (String url : split) {
-            MutablePair<String, String> mutablePair = HtmlHandlerUtil.parseHtml(url);
-            String title = mutablePair.getLeft();
-            String value = mutablePair.getRight();
-            FileOutputStream fileOutputStream = null;
-            try {
-                fileOutputStream = new FileOutputStream(filePath + title + ".md");
-                IOUtils.write(value, fileOutputStream, "utf-8");
-            } finally {
-                IOUtils.closeQuietly(fileOutputStream);
-            }
-            sucNum.addAndGet(1);
-        }
-    }
-
-    private void parseHtml(String filePath, String inputHtmlTag) throws Exception {
-        String value = HtmlHandlerUtil.parseHtmlTag(inputHtmlTag);
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream(filePath + "Tag标签文档.md");
-            IOUtils.write(value, fileOutputStream, "utf-8");
-        } finally {
-            IOUtils.closeQuietly(fileOutputStream);
-        }
-    }
 }

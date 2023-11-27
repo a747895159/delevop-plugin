@@ -1,6 +1,7 @@
 package org.zb.plugin.html2md;
 
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -11,8 +12,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 请求url页面处理工具类
@@ -164,7 +167,7 @@ public class HtmlHandlerUtil {
      * 异步加载浏览器获取文本内容
      */
     private static Document asyncHtml(String url) throws Exception {
-        System.setProperty("webdriver.chrome.driver", "D:\\develop\\Tools\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "D:\\develop\\Tools\\chromedriver.exe");
         //引入谷歌驱动
         ChromeOptions options = new ChromeOptions();
         //允许所有请求
@@ -176,8 +179,37 @@ public class HtmlHandlerUtil {
         Thread.sleep(5000);
         String pageSource = webDriver.getPageSource();
         Document parse = Jsoup.parse(pageSource);
+        System.clearProperty("webdriver.chrome.driver");
         webDriver.close();
         return parse;
+    }
+
+    public static void outputFileByUrlList(String filePath, String input, AtomicInteger sucNum) throws Exception {
+        String[] split = input.split("\n");
+        for (String url : split) {
+            MutablePair<String, String> mutablePair = parseHtml(url);
+            String title = mutablePair.getLeft();
+            String value = mutablePair.getRight();
+            FileOutputStream fileOutputStream = null;
+            try {
+                fileOutputStream = new FileOutputStream(filePath + title + ".md");
+                IOUtils.write(value, fileOutputStream, "utf-8");
+            } finally {
+                IOUtils.closeQuietly(fileOutputStream);
+            }
+            sucNum.addAndGet(1);
+        }
+    }
+
+    public static void outputFileByTag(String filePath, String inputHtmlTag) throws Exception {
+        String value = HtmlHandlerUtil.parseHtmlTag(inputHtmlTag);
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(filePath + "Tag标签文档.md");
+            IOUtils.write(value, fileOutputStream, "utf-8");
+        } finally {
+            IOUtils.closeQuietly(fileOutputStream);
+        }
     }
 
 }
