@@ -47,8 +47,8 @@
         </action>
 
 
-        <group id="PersonDevelop" text="PersonDevelop" popup="true">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        <group id="DevelopPlugin" text="DevelopPlugin" popup="true">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
             <action class="org.zb.plugin.action.Html2MarkdownAction" id="Html2MarkdownAction01" text="Html2Markdown" icon="AllIcons.Actions.Checked"/>
             <action class="org.zb.plugin.action.Test001Action" id="Test001Action" text="Test001" icon="AllIcons.Actions.Checked"/>
 

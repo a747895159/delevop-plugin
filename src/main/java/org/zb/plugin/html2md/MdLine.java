@@ -134,6 +134,6 @@ public class MdLine {
         /**
          *
          */
-        Ordered, Unordered, None, Head1, Head2, Head3, HR
+        Ordered, Unordered, None, Head1, Head2, Head3, HR,TR
     }
 }
