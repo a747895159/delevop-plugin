@@ -70,10 +70,6 @@ public class H2MPanel extends DialogWrapper {
      */
     private void onOK() {
         String googleExeFile = googleFileInput.getText().trim();
-        /*if (StringUtils.isEmpty(googleExeFile)) {
-            Messages.showWarningDialog("请选择谷歌驱动程序!", "配置错误");
-            return;
-        }*/
         String filePath = fileNameInput.getText().trim();
         if (StringUtils.isEmpty(filePath)) {
             Messages.showWarningDialog("请选择文件目录!", "配置错误");
@@ -83,7 +79,7 @@ public class H2MPanel extends DialogWrapper {
         // 针对Linux系统路径做处理
         filePath = filePath.replace("\\", "/");
 
-        if(StringUtils.isNotBlank(googleExeFile)){
+        if (StringUtils.isNotBlank(googleExeFile)) {
             googleExeFile = googleExeFile.replace("\\", "/");
             //设置谷歌驱动
             System.setProperty("webdriver.chrome.driver", googleExeFile);
@@ -107,7 +103,9 @@ public class H2MPanel extends DialogWrapper {
             Messages.showErrorDialog(project, errMsg, "Information");
             return;
         } finally {
-            System.clearProperty("webdriver.chrome.driver");
+            if (StringUtils.isNotBlank(googleExeFile)) {
+                System.clearProperty("webdriver.chrome.driver");
+            }
         }
         ToolUtil.notifyMsg("Convert Success.Please go to the '" + filePath + "'", NotificationType.INFORMATION, project);
 
