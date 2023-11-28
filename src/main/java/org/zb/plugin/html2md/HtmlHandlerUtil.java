@@ -183,7 +183,6 @@ public class HtmlHandlerUtil {
         Thread.sleep(5000);
         String pageSource = webDriver.getPageSource();
         Document parse = Jsoup.parse(pageSource);
-        System.clearProperty("webdriver.chrome.driver");
         webDriver.close();
         return parse;
     }
