@@ -1,6 +1,5 @@
 package org.zb.plugin.html2md;
 
-import com.intellij.notification.NotificationType;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
@@ -12,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.zb.plugin.putil.ProjectUtils;
-import org.zb.plugin.restdoc.utils.ToolUtil;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -107,7 +105,8 @@ public class H2MPanel extends DialogWrapper {
                 System.clearProperty("webdriver.chrome.driver");
             }
         }
-        ToolUtil.notifyMsg("Convert Success.Please go to the '" + filePath + "'", NotificationType.INFORMATION, project);
+        Messages.showInfoMessage(project, "转换成功,请到" + filePath + "目录查看", "success");
+//        ToolUtil.notifyMsg("Convert Success.Please go to the '" + filePath + "'", NotificationType.INFORMATION, project);
 
     }
 
