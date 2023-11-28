@@ -1,20 +1,18 @@
-package org.zb.plugin.action;
+package org.zb.plugin.html2md;
 
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.DocumentAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.zb.plugin.html2md.HtmlHandlerUtil;
+import org.zb.plugin.putil.ProjectUtils;
 import org.zb.plugin.restdoc.utils.ToolUtil;
-import org.zb.plugin.util.ProjectUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -25,14 +23,17 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author : ZhouBin
  */
 public class H2MPanel extends DialogWrapper {
+
+    private static String defaultFilePath;
+
+    private static String defaultGoogleExeFile;
+
     private JPanel contentPane;
-    private JTextField googleFile;
+    private JTextField googleFileInput;
     private JTextField fileNameInput;
     private JButton googleExeChoose;
     private JButton filePathChoose;
     private JTextArea textArea1;
-
-    private InputValidator myValidator;
 
     /**
      * 项目对象
@@ -46,6 +47,7 @@ public class H2MPanel extends DialogWrapper {
         setTitle("Html转换为markdown神器");
         contentPane.setPreferredSize(new Dimension(600, 400));
         init();
+        initPanel();
         initEvent();
 
     }
@@ -67,22 +69,30 @@ public class H2MPanel extends DialogWrapper {
      * 确认按钮回调事件
      */
     private void onOK() {
-        String googleExeFile = googleFile.getText().trim();
-        if (StringUtils.isEmpty(googleExeFile)) {
-            Messages.showWarningDialog("Can't Select google exe file!", "配置错误");
+        String googleExeFile = googleFileInput.getText().trim();
+        /*if (StringUtils.isEmpty(googleExeFile)) {
+            Messages.showWarningDialog("请选择谷歌驱动程序!", "配置错误");
             return;
-        }
+        }*/
         String filePath = fileNameInput.getText().trim();
         if (StringUtils.isEmpty(filePath)) {
-            Messages.showWarningDialog("Can't Select output filePath!", "配置错误");
+            Messages.showWarningDialog("请选择文件目录!", "配置错误");
             return;
         }
         String inputText = textArea1.getText().trim();
         // 针对Linux系统路径做处理
-        googleExeFile = googleExeFile.replace("\\", "/");
         filePath = filePath.replace("\\", "/");
-        //设置谷歌驱动
-        System.setProperty("webdriver.chrome.driver", googleExeFile);
+
+        if(StringUtils.isNotBlank(googleExeFile)){
+            googleExeFile = googleExeFile.replace("\\", "/");
+            //设置谷歌驱动
+            System.setProperty("webdriver.chrome.driver", googleExeFile);
+        }
+        //追加文件最后的目录
+        filePath = (filePath.endsWith("/") || filePath.endsWith("\\")) ? filePath : (filePath + "/");
+        defaultFilePath = filePath;
+        defaultGoogleExeFile = googleExeFile;
+
         AtomicInteger sucNum = new AtomicInteger(0);
         try {
             if (inputText.startsWith("http")) {
@@ -110,7 +120,7 @@ public class H2MPanel extends DialogWrapper {
             VirtualFile path = ProjectUtils.getBaseDir(project);
             VirtualFile virtualFile = FileChooser.chooseFile(FileChooserDescriptorFactory.createSingleFileDescriptor(), project, path);
             if (virtualFile != null) {
-                googleFile.setText(virtualFile.getPath());
+                googleFileInput.setText(virtualFile.getPath());
             }
         });
 
@@ -129,17 +139,22 @@ public class H2MPanel extends DialogWrapper {
                 enableOkAction();
             }
         });
-        this.filePathChoose.addChangeListener((changeListener) -> {
-            enableOkAction();
-        });
     }
 
     private void enableOkAction() {
         String text = this.textArea1.getText().trim();
-        String outputFilePath = this.fileNameInput.getText().trim();
         this.getOKAction().setEnabled(false);
-        if (StringUtils.isNotBlank(text) && StringUtils.isNotBlank(outputFilePath)) {
+        if (StringUtils.isNotBlank(text)) {
             this.getOKAction().setEnabled(true);
+        }
+    }
+
+    private void initPanel() {
+        if (StringUtils.isNotBlank(defaultGoogleExeFile)) {
+            googleFileInput.setText(defaultGoogleExeFile);
+        }
+        if (StringUtils.isNotBlank(defaultFilePath)) {
+            fileNameInput.setText(defaultFilePath);
         }
     }
 }

@@ -168,6 +168,10 @@ public class HtmlHandlerUtil {
      */
     private static Document asyncHtml(String url) throws Exception {
         //System.setProperty("webdriver.chrome.driver", "D:\\develop\\Tools\\chromedriver.exe");
+        String chromeDriver = System.getProperty("webdriver.chrome.driver");
+        if (StringUtils.isBlank(chromeDriver)) {
+            throw new RuntimeException("请配置谷歌浏览器驱动程序!");
+        }
         //引入谷歌驱动
         ChromeOptions options = new ChromeOptions();
         //允许所有请求

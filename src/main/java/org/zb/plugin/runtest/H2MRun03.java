@@ -1,4 +1,4 @@
-package org.zb.plugin;
+package org.zb.plugin.runtest;
 
 
 import org.apache.commons.io.IOUtils;

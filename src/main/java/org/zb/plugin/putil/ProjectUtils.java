@@ -1,4 +1,4 @@
-package org.zb.plugin.util;
+package org.zb.plugin.putil;
 
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;

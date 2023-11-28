@@ -48,8 +48,9 @@
 
         <group id="PersonDevelop" text="PersonDevelop" popup="true">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
-            <action class="org.zb.plugin.action.Html2MarkdownAction" id="Html2MarkdownAction" text="Html2MarkdownAction" icon="AllIcons.Actions.Checked"/>
-            <action class="org.zb.plugin.action.Html2MarkdownAction02" id="Test001Action" text="Test001" icon="AllIcons.Actions.Checked"/>
+            <action class="org.zb.plugin.action.Html2MarkdownAction" id="Html2MarkdownAction01" text="Html2Markdown" icon="AllIcons.Actions.Checked"/>
+            <action class="org.zb.plugin.action.Test001Action" id="Test001Action" text="Test001" icon="AllIcons.Actions.Checked"/>
+
         </group>
 
         <!-- idea  tools 工具栏菜单设置 -->

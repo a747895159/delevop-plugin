@@ -1,4 +1,4 @@
-package org.zb.plugin.util;
+package org.zb.plugin.putil;
 
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
