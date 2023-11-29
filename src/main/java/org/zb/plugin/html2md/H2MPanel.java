@@ -22,9 +22,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class H2MPanel extends DialogWrapper {
 
-    private static String defaultFilePath;
+    private static String defaultFilePath = "D:/data/";
 
-    private static String defaultGoogleExeFile;
+    private static String defaultGoogleExeFile = "D:/develop/Tools/chromedriver.exe";
 
     private JPanel contentPane;
     private JTextField googleFileInput;
@@ -130,18 +130,21 @@ public class H2MPanel extends DialogWrapper {
             }
         });
         this.getOKAction().setEnabled(false);
-        this.textArea1.getDocument().addDocumentListener(new DocumentAdapter() {
+        DocumentAdapter adapter = new DocumentAdapter() {
             @Override
             public void textChanged(@NotNull DocumentEvent event) {
                 enableOkAction();
             }
-        });
+        };
+        this.textArea1.getDocument().addDocumentListener(adapter);
+        this.fileNameInput.getDocument().addDocumentListener(adapter);
     }
 
     private void enableOkAction() {
         String text = this.textArea1.getText().trim();
+        String inputStr = this.fileNameInput.getText().trim();
         this.getOKAction().setEnabled(false);
-        if (StringUtils.isNotBlank(text)) {
+        if (StringUtils.isNotBlank(text) && StringUtils.isNotBlank(inputStr)) {
             this.getOKAction().setEnabled(true);
         }
     }
