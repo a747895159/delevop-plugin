@@ -193,13 +193,18 @@ public class HtmlHandlerUtil {
             MutablePair<String, String> mutablePair = parseHtml(url);
             String title = mutablePair.getLeft();
             String value = mutablePair.getRight();
-            FileOutputStream fileOutputStream = null;
+
             try {
-                fileOutputStream = new FileOutputStream(filePath + title + ".md");
-                IOUtils.write(value, fileOutputStream, "utf-8");
-            } finally {
-                IOUtils.closeQuietly(fileOutputStream);
+                try (FileOutputStream fileOutputStream = new FileOutputStream(filePath + title + ".md")) {
+                    IOUtils.write(value, fileOutputStream, "utf-8");
+                }
+            } catch (Exception e) {
+                title = "标签文档_" + sucNum.get() + ".md";
+                try (FileOutputStream fileOutputStream = new FileOutputStream(filePath + title + ".md")) {
+                    IOUtils.write(value, fileOutputStream, "utf-8");
+                }
             }
+
             sucNum.addAndGet(1);
         }
     }
