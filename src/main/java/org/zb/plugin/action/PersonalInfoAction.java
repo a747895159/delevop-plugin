@@ -12,6 +12,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 public class PersonalInfoAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
-        BrowserUtil.browse("https://XXXXXXX");
+        BrowserUtil.browse("https://www.baidu.com/");
     }
 }

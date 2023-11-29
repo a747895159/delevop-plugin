@@ -90,6 +90,7 @@ public class DataSplicePanel extends DialogWrapper {
                 enableOkAction();
             }
         });
+        textInput1.requestFocus();
     }
 
     private void enableOkAction() {

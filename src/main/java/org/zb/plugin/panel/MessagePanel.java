@@ -21,26 +21,30 @@ public class MessagePanel extends DialogWrapper {
     private Project project;
 
 
-    public MessagePanel(@Nullable Project project, String title, String msg) {
+    public MessagePanel(@Nullable Project project, String title, String msg, int width, int height) {
         super(project);
-        this.project = project;
-        setTitle(title);
-        contentPane.setPreferredSize(new Dimension(600, 400));
-        init();
-        textArea1.setEditable(false);
-        textArea1.setText(msg);
+        initPanel(project, title, msg, width, height);
+    }
+
+    public MessagePanel(@Nullable Project project, String msg, int width, int height) {
+        super(project);
+        initPanel(project, "Success", msg, width, height);
 
     }
 
     public MessagePanel(@Nullable Project project, String msg) {
         super(project);
+        initPanel(project, "Success", msg, 600, 400);
+
+    }
+
+    private void initPanel(Project project, String title, String msg, int width, int height) {
         this.project = project;
-        setTitle("Success");
-        contentPane.setPreferredSize(new Dimension(600, 400));
+        setTitle(title);
+        contentPane.setPreferredSize(new Dimension(width, height));
         init();
         textArea1.setEditable(false);
         textArea1.setText(msg);
-
     }
 
 
