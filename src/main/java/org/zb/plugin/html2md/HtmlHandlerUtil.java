@@ -199,7 +199,7 @@ public class HtmlHandlerUtil {
                     IOUtils.write(value, fileOutputStream, "utf-8");
                 }
             } catch (Exception e) {
-                title = "标签文档_" + sucNum.get() + ".md";
+                title = "标签文档_" + sucNum.get();
                 try (FileOutputStream fileOutputStream = new FileOutputStream(filePath + title + ".md")) {
                     IOUtils.write(value, fileOutputStream, "utf-8");
                 }
