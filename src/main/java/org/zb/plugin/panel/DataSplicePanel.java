@@ -67,8 +67,10 @@ public class DataSplicePanel extends DialogWrapper {
             StringBuilder sb = new StringBuilder();
             String[] split = textStr.split("\n");
             for (String line : split) {
-                String format = String.format(inputStr, Arrays.stream(line.split(",")).map(String::trim).toArray());
-                sb.append(format).append("\n");
+                if (StringUtils.isNotBlank(line)) {
+                    String format = String.format(inputStr, Arrays.stream(line.trim().split(",")).map(String::trim).toArray());
+                    sb.append(format).append("\n");
+                }
             }
             new MessagePanel(project, sb.toString()).show();
         } catch (Exception e1) {
