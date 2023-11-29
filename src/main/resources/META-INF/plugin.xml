@@ -28,7 +28,8 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <projectService serviceInterface="org.zb.plugin.restdoc.checker.EventChecker" serviceImplementation="org.zb.plugin.restdoc.checker.impl.ClassSelectedChecker"/>
+        <projectService serviceInterface="org.zb.plugin.restdoc.checker.EventChecker"
+                        serviceImplementation="org.zb.plugin.restdoc.checker.impl.ClassSelectedChecker"/>
 
     </extensions>
 
@@ -49,9 +50,14 @@
 
         <group id="DevelopPlugin" text="DevelopPlugin" popup="true">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
-            <action class="org.zb.plugin.action.Html2MarkdownAction" id="Html2MarkdownAction01" text="Html2Markdown" icon="AllIcons.Actions.Checked"/>
-            <action class="org.zb.plugin.action.Test001Action" id="Test001Action" text="Test001" icon="AllIcons.Actions.Checked"/>
-
+            <action class="org.zb.plugin.action.Html2MarkdownAction" id="Html2MarkdownAction01" text="Html2Markdown"
+                    icon="AllIcons.Actions.Checked"/>
+            <action class="org.zb.plugin.action.Test001Action" id="Test001Action" text="Test001"
+                    icon="AllIcons.Actions.Checked"/>
+            <action class="org.zb.plugin.action.TextFormatAction" id="TextFormatAction" text="行转列文本"
+                    icon="AllIcons.Actions.Checked"/>
+            <action class="org.zb.plugin.action.DataSpliceAction" id="SqlSpliceAction" text="数据模板拼接"
+                    icon="AllIcons.Actions.Checked"/>
         </group>
 
         <!-- idea  tools 工具栏菜单设置 -->
