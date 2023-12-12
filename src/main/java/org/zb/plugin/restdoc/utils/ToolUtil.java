@@ -47,6 +47,13 @@ public class ToolUtil {
         String message = "Convert " + selectName + " to " + formatName + " success, copied to clipboard.";
         notifyMsg(message, NotificationType.INFORMATION, project);
     }
+    public static void writeClipboard(String content, Project project) {
+        StringSelection selection = new StringSelection(content);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+        String message = "convert  success, copied to clipboard.";
+        notifyMsg(message, NotificationType.INFORMATION, project);
+    }
 
     public static String toStr(Object object) {
         if (object != null) {

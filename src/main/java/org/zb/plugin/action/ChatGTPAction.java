@@ -5,11 +5,12 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 
 /**
+ * ChatGTP 链接地址
  *
  * @author :  ZhouBin
  * @date :  2019-11-04
  */
-public class PersonalInfoAction extends AnAction {
+public class ChatGTPAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
         //ChatGPT

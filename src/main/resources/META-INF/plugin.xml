@@ -56,7 +56,7 @@
                     icon="AllIcons.Actions.Checked"/>
             <action class="org.zb.plugin.action.DataSpliceAction" id="DataSpliceAction" text="数据模板拼接"
                     icon="AllIcons.Actions.Checked"/>
-            <action class="org.zb.plugin.action.PersonalInfoAction" id="PersonalInfoAction" text="ChatGPT"
+            <action class="org.zb.plugin.action.ChatGTPAction" id="PersonalInfoAction" text="ChatGPT"
                     icon="AllIcons.Actions.Checked"/>
         </group>
 

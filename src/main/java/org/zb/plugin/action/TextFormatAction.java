@@ -8,12 +8,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
 import org.apache.commons.lang3.StringUtils;
-import org.zb.plugin.panel.MessagePanel;
+import org.zb.plugin.restdoc.utils.ToolUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 行转列文本处理
  * @author : ZhouBin
  */
 public class TextFormatAction extends AnAction {
@@ -45,7 +46,9 @@ public class TextFormatAction extends AnAction {
                     list.add(s.trim());
                 }
             }
-            new MessagePanel(project, JSONObject.toJSONString(list)).show();
+            String convertStr = JSONObject.toJSONString(list);
+//            new MessagePanel(project, convertStr).show();
+            ToolUtil.writeClipboard(convertStr,project);
         } catch (Exception exception) {
             Messages.showErrorDialog(project, "处理失败", "Information");
         }

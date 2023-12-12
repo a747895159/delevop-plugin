@@ -7,6 +7,8 @@ import com.intellij.openapi.project.Project;
 import org.zb.plugin.html2md.H2MPanel;
 
 /**
+ * html转换为markdown语法
+ *
  * @author : ZhouBin
  */
 public class Html2MarkdownAction extends AnAction {

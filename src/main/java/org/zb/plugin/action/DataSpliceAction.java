@@ -7,6 +7,7 @@ import com.intellij.openapi.project.Project;
 import org.zb.plugin.panel.DataSplicePanel;
 
 /**
+ * 数据模版转换处理
  * @author : ZhouBin
  */
 public class DataSpliceAction extends AnAction {
