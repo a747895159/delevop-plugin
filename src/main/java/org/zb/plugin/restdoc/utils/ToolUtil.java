@@ -51,7 +51,7 @@ public class ToolUtil {
         StringSelection selection = new StringSelection(content);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
-        String message = "convert  success, copied to clipboard.";
+        String message = "convert  success,already copied to clipboard.";
         notifyMsg(message, NotificationType.INFORMATION, project);
     }
 
