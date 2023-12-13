@@ -22,6 +22,10 @@ public class Panel03 extends DialogWrapper {
     private JTextField columnInput;
     private JTextField valueInput;
     private JTextArea textArea1;
+    private JPanel topPanelLabel;
+    private JLabel label01;
+    private JLabel label02;
+    private JPanel belowPanelLabel;
 
     private Fun03<JTextField, JTextArea> supplier;
 
@@ -31,11 +35,16 @@ public class Panel03 extends DialogWrapper {
     private Project project;
 
 
-    public Panel03(@Nullable Project project, Fun03<JTextField, JTextArea> fun03,String title) {
+    public Panel03(@Nullable Project project, Fun03<JTextField, JTextArea> fun03, String title,String topPanelLabelName, String label01Name,
+                   String label02Name, String belowPanelLabelName) {
         super(project);
         this.project = project;
         this.supplier = fun03;
         setTitle(title);
+        topPanelLabel.setName(topPanelLabelName);
+        label01.setText(label01Name);
+        label02.setText(label02Name);
+        belowPanelLabel.setName(belowPanelLabelName);
         contentPane.setPreferredSize(new Dimension(600, 400));
         init();
         initPanel();

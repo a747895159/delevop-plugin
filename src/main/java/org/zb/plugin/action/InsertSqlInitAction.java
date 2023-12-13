@@ -26,7 +26,7 @@ public class InsertSqlInitAction extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getData(PlatformDataKeys.PROJECT);
         Fun03<JTextField, JTextArea> fun03 = (columnInput, valueInput, textArea1) -> onOK(project, columnInput, valueInput, textArea1);
-        Panel03 panel = new Panel03(project, fun03, "InsertSql字段值初始化");
+        Panel03 panel = new Panel03(project, fun03, "InsertSql字段值初始化", "自定义相关字段", "自定义列:", "自定义值:", "请输入Insert相关上去了脚本");
         panel.show();
     }
 
@@ -44,7 +44,7 @@ public class InsertSqlInitAction extends AnAction {
         String sqlInputText = textArea1.getText().trim();
         StringBuilder sb = new StringBuilder();
         for (String sql : sqlInputText.split("\n")) {
-            if(StringUtils.isNotBlank(sql)){
+            if (StringUtils.isNotBlank(sql)) {
                 String s = singleSqlParser(sql, customColumns, customValues);
                 sb.append(s).append("\n");
             }
