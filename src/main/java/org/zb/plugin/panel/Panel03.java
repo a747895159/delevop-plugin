@@ -14,6 +14,8 @@ import javax.swing.event.DocumentEvent;
 import java.awt.*;
 
 /**
+ * 通用Panel组件, 2个输入框,1个文本框
+ *
  * @author : ZhouBin
  */
 public class Panel03 extends DialogWrapper {
@@ -66,7 +68,7 @@ public class Panel03 extends DialogWrapper {
         } catch (Exception e) {
             String message = e.getMessage();
             message = message == null ? e.toString() : message;
-            Messages.showErrorDialog(project, message, "Information");
+            Messages.showErrorDialog(project, "数据异常,操作失败："+message, "Information");
         }
         super.doOKAction();
     }
