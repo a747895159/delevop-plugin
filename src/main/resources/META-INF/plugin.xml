@@ -69,6 +69,11 @@
           <action class="org.zb.plugin.bean2Json.Java2MarkDownDocAction" id="menu_comment" text="Must Input" icon="AllIcons.Actions.Checked"/>
         </group>
         -->
+        <group id="org.zb.plugin.group.extconfig.ExtConfigGroup____001" class="org.zb.plugin.group.extconfig.ExtConfigGroup" text="测试组001"
+               popup="true" icon="AllIcons.Actions.GroupByPrefix">
+            <!--生成代码菜单-->
+            <add-to-group group-id="DevelopPlugin" anchor="first"/>
+        </group>
 
 
     </actions>
