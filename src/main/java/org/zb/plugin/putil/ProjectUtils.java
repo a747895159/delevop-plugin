@@ -14,9 +14,6 @@ import java.awt.*;
 /**
  * IDEA项目相关工具
  *
- * @author tangcent
- * @version 1.0.0
- * @since 2020/02/14 18:35
  */
 public class ProjectUtils {
 
