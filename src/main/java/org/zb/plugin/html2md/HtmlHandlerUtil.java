@@ -82,7 +82,7 @@ public class HtmlHandlerUtil {
                 } else {
                     ele = doc.getElementsByTag(ruleEnum.getEleTagVal()).get(0);
                 }
-                handlerWebSite(ruleEnum, ele);
+                handlerWebSite(ruleEnum, ele, url);
             }
             //获取正文内容元素
             String content = H2MConvertUtil.getTextContent(ele);
@@ -120,7 +120,7 @@ public class HtmlHandlerUtil {
         return title;
     }
 
-    private static void handlerWebSite(HostRuleEnum ruleEnum, Element ele) {
+    private static void handlerWebSite(HostRuleEnum ruleEnum, Element ele, String url) {
         if (ruleEnum == null) {
             return;
         }
@@ -154,6 +154,16 @@ public class HtmlHandlerUtil {
                     if (StringUtils.isNotBlank(attr)) {
                         e.removeAttr("src");
                         e.attr("src", attr);
+                    }
+                });
+                break;
+            case SF:
+                ele.getElementsByTag("img").forEach(e -> {
+                    String imgSrc = e.attr("src");
+                    if (StringUtils.isNotBlank(imgSrc) && !imgSrc.contains(ruleEnum.getHost())) {
+                        String[] split = url.split(ruleEnum.getHost());
+                        imgSrc = split[0] + ruleEnum.getHost() + imgSrc;
+                        e.attr("src", imgSrc);
                     }
                 });
                 break;
