@@ -16,7 +16,7 @@
 
 -- 1.找打develop-plugin -> Tasks -> build 目录下
 -- 2.先进行clean、 然后再 进行build
--- 3.然后到Build下 libs 下 找打jar
+-- 3.然后到 build目录下 --> libs目录下jar 或者 distributions目录下 **.zip
 
 ##日志路径
 -- C:\Users\zhoubin\AppData\Local\JetBrains\IntelliJIdea2020.2\log
