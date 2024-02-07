@@ -392,12 +392,6 @@ public class H2MConvertUtil {
             url = "https:" + url;
         }
         line.append(url);
-        String title = element.attr("title");
-        if (StringUtils.isNotBlank(title)) {
-            line.append(" \"");
-            line.append(title);
-            line.append("\"");
-        }
         line.append(")");
         lines.add(line);
     }
