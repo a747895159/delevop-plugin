@@ -58,7 +58,9 @@
                     icon="AllIcons.Actions.Checked"/>
             <action class="org.zb.plugin.action.InsertSqlInitAction" id="InsertSqlInitAction" text="InsertSql初始化"
                     icon="AllIcons.Actions.Checked"/>
-            <action class="org.zb.plugin.action.ChatGTPAction" id="PersonalInfoAction" text="ChatGPT"
+            <action class="org.zb.plugin.action.ChatGTPAction" id="ChatGTPAction" text="ChatGPT"
+                    icon="AllIcons.Actions.Checked"/>
+            <action class="org.zb.plugin.action.WxyyGTPAction" id="WxyyGTPAction" text="文心一言"
                     icon="AllIcons.Actions.Checked"/>
         </group>
 
