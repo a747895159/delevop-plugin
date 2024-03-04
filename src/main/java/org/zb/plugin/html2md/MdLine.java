@@ -94,6 +94,10 @@ public class MdLine {
             newLine.append("### ");
         } else if (type.equals(MDLineType.HR)) {
             newLine.append("----");
+        } else if (type.equals(MDLineType.BlockQuote_1)) {
+            newLine.append("> ");
+        } else if (type.equals(MDLineType.BlockQuote_2)) {
+            newLine.append(">> ");
         }
 
         newLine.append(getContent());
@@ -134,6 +138,6 @@ public class MdLine {
         /**
          *
          */
-        Ordered, Unordered, None, Head1, Head2, Head3, HR,TR
+        Ordered, Unordered, None, Head1, Head2, Head3, HR, TR, BlockQuote_1, BlockQuote_2
     }
 }

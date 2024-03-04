@@ -23,7 +23,7 @@ public class H2MRun03 {
          * https://www.toutiao.com/article/6730619165612179979
          */
         System.setProperty("webdriver.chrome.driver", "D:\\develop\\Tools\\chromedriver.exe");
-        MutablePair<String, String> convert = HtmlHandlerUtil.parseHtml("https://segmentfault.com/a/1190000040957477", "");
+        MutablePair<String, String> convert = HtmlHandlerUtil.parseHtml("https://blog.csdn.net/crazymakercircle/article/details/129098352?spm=1001.2014.3001.5502", "");
         String title = convert.getLeft();
         String value = convert.getRight();
         IOUtils.write(value, new FileOutputStream("D:\\data\\" + title + ".md"), "utf-8");

@@ -27,6 +27,7 @@ public class H2MConvertUtil {
 
     public static final String CATALOG = "## 文章目录";
     private static int indentation = -1;
+    private static int blockQuoteIndex = -1;
     private static boolean orderedList = false;
 
 
@@ -76,7 +77,7 @@ public class H2MConvertUtil {
 
     private static String parseDocument(Document dirtyDoc) {
         indentation = -1;
-
+        blockQuoteIndex = -1;
         String title = dirtyDoc.title();
         Whitelist whitelist = Whitelist.relaxed();
         Cleaner cleaner = new Cleaner(whitelist);
@@ -198,6 +199,8 @@ public class H2MConvertUtil {
             thead(element, lines);
         } else if ("tbody".equals(tagName)) {
             tbody(element, lines);
+        } else if ("blockquote".equals(tagName)) {
+            blockquote(element, lines);
         } else {
             MdLine line = getLastLine(lines);
             line.append(getTextContent(element));
@@ -218,8 +221,11 @@ public class H2MConvertUtil {
     }
 
     private static void div(Element element, ArrayList<MdLine> lines) {
+        divContent(getTextContent(element), lines);
+    }
+
+    private static void divContent(String content, ArrayList<MdLine> lines) {
         MdLine line = getLastLine(lines);
-        String content = getTextContent(element);
         if (StringUtils.isNotBlank(content)) {
             if (StringUtils.isNotBlank(line.getContent().trim())) {
                 lines.add(new MdLine(MdLine.MDLineType.None, 0, ""));
@@ -253,6 +259,18 @@ public class H2MConvertUtil {
         }
     }
 
+    private static void blockquote(Element element, ArrayList<MdLine> lines) {
+        List<Node> children = element.childNodes();
+        blockQuoteIndex++;
+        for (Node child : children) {
+            if (child instanceof Element) {
+                Element childElement = (Element) child;
+                p(childElement, lines);
+            }
+        }
+        blockQuoteIndex--;
+    }
+
     private static void tr(Element element, ArrayList<MdLine> lines) {
         List<Node> childrenList = element.childNodes();
         StringBuilder sb = new StringBuilder();
@@ -261,7 +279,7 @@ public class H2MConvertUtil {
             for (Node node : childrenList) {
                 if (node instanceof Element) {
                     Element childElement = (Element) node;
-                    sb.append("|").append(getTextContent(childElement).trim().replaceAll("\n",""));
+                    sb.append("|").append(getTextContent(childElement).trim().replaceAll("\n", ""));
                 }
             }
             if (sb.length() > 0) {
@@ -280,7 +298,7 @@ public class H2MConvertUtil {
             for (Node node : childrenList) {
                 if (node instanceof Element) {
                     Element childElement = (Element) node;
-                    sb.append("|").append(getTextContent(childElement).trim().replaceAll("\n",""));
+                    sb.append("|").append(getTextContent(childElement).trim().replaceAll("\n", ""));
                 }
             }
             if (sb.length() > 0) {
@@ -294,15 +312,20 @@ public class H2MConvertUtil {
 
     private static void p(Element element, ArrayList<MdLine> lines) {
         MdLine line = getLastLine(lines);
-        if (StringUtils.isNotBlank(line.getContent().trim())) {
-            lines.add(new MdLine(MdLine.MDLineType.None, 0, ""));
+        MdLine.MDLineType type = MdLine.MDLineType.None;
+        if (blockQuoteIndex > -1) {
+            type = blockQuoteIndex == 1 ? MdLine.MDLineType.BlockQuote_2 : MdLine.MDLineType.BlockQuote_1;
         }
-        lines.add(new MdLine(MdLine.MDLineType.None, 0, ""));
-        lines.add(new MdLine(MdLine.MDLineType.None, 0, getTextContent(element).replaceAll("&nbsp;", "")));
-        lines.add(new MdLine(MdLine.MDLineType.None, 0, ""));
         if (StringUtils.isNotBlank(line.getContent().trim())) {
-            lines.add(new MdLine(MdLine.MDLineType.None, 0, ""));
+            lines.add(new MdLine(type, 0, ""));
         }
+        lines.add(new MdLine(type, 0, ""));
+        lines.add(new MdLine(type, 0, getTextContent(element).replaceAll("&nbsp;", "")));
+        lines.add(new MdLine(type, 0, ""));
+        if (StringUtils.isNotBlank(line.getContent().trim())) {
+            lines.add(new MdLine(type, 0, ""));
+        }
+
     }
 
     private static void br(ArrayList<MdLine> lines) {
