@@ -113,11 +113,15 @@ public class HtmlHandlerUtil {
 
 
     public static String getTitle(Document doc, String titleSplit) {
-        String title = H2MConvertUtil.fetchTitle(doc);
-        if (StringUtils.isNotBlank(title) && StringUtils.isNotBlank(titleSplit)) {
-            return title.split(titleSplit)[0];
+        try {
+            String title = H2MConvertUtil.fetchTitle(doc);
+            if (StringUtils.isNotBlank(title) && StringUtils.isNotBlank(titleSplit)) {
+                title = title.split(titleSplit)[0];
+            }
+            return title.split("？")[0];
+        } catch (Exception e) {
+            return "exception-default";
         }
-        return title;
     }
 
     private static void handlerWebSite(HostRuleEnum ruleEnum, Element ele, String url) {
