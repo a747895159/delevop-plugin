@@ -118,7 +118,7 @@ public class HtmlHandlerUtil {
             if (StringUtils.isNotBlank(title) && StringUtils.isNotBlank(titleSplit)) {
                 title = title.split(titleSplit)[0];
             }
-            return title.split("？")[0];
+            return title.replaceAll("[\\\\\\/\\|\\:\\*\\?\\\"]","").split("？")[0];
         } catch (Exception e) {
             return "exception-default";
         }

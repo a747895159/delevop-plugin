@@ -213,7 +213,11 @@ public class H2MConvertUtil {
         if (lines.size() > 0) {
             line = lines.get(lines.size() - 1);
         } else {
-            line = new MdLine(MdLine.MDLineType.None, 0, "");
+            MdLine.MDLineType type = MdLine.MDLineType.None;
+            if (blockQuoteIndex > -1) {
+                type = blockQuoteIndex == 1 ? MdLine.MDLineType.BlockQuote_2 : MdLine.MDLineType.BlockQuote_1;
+            }
+            line = new MdLine(type, 0, "");
             lines.add(line);
         }
 
@@ -313,9 +317,6 @@ public class H2MConvertUtil {
     private static void p(Element element, ArrayList<MdLine> lines) {
         MdLine line = getLastLine(lines);
         MdLine.MDLineType type = MdLine.MDLineType.None;
-        if (blockQuoteIndex > -1) {
-            type = blockQuoteIndex == 1 ? MdLine.MDLineType.BlockQuote_2 : MdLine.MDLineType.BlockQuote_1;
-        }
         if (StringUtils.isNotBlank(line.getContent().trim())) {
             lines.add(new MdLine(type, 0, ""));
         }
@@ -331,7 +332,11 @@ public class H2MConvertUtil {
     private static void br(ArrayList<MdLine> lines) {
         MdLine line = getLastLine(lines);
         if (StringUtils.isNotBlank(line.getContent().trim())) {
-            lines.add(new MdLine(MdLine.MDLineType.None, 0, ""));
+            MdLine.MDLineType type = MdLine.MDLineType.None;
+            if (blockQuoteIndex > -1) {
+                type = blockQuoteIndex == 1 ? MdLine.MDLineType.BlockQuote_2 : MdLine.MDLineType.BlockQuote_1;
+            }
+            lines.add(new MdLine(type, 0, ""));
         }
     }
 
