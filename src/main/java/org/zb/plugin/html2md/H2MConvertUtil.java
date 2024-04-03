@@ -427,7 +427,7 @@ public class H2MConvertUtil {
     private static void code(Element element, ArrayList<MdLine> lines) {
 
         String codeContent = getCodeContent(element).replace("/#", "#");
-        String code = codeContent.trim();
+        String code = codeContent.trim().replaceAll("&amp;","&");
         if (code.contains("\n")) {
             lines.add(new MdLine(MdLine.MDLineType.None, 0, ""));
             MdLine line = new MdLine(MdLine.MDLineType.None, 0, "    ");
