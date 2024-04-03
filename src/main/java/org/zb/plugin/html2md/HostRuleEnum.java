@@ -25,8 +25,9 @@ public enum HostRuleEnum {
 
     JS("jianshu.com", EleTagEnum.TAG, "article", true, " - 简书"),
 
-    ZH("zhihu.com", EleTagEnum.TAG, "article", true, " - 知乎"),
+    ZH("zhihu.com",  EleTagEnum.ID, "article", true, " - 知乎"),
 
+    JJ("juejin.cn", EleTagEnum.TAG, "article-root", true, " - 掘金"),
 
     UNKNOWN("UNKNOWN", null, "body", true, null),
 
