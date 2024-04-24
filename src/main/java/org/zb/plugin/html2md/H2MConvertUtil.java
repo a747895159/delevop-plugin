@@ -145,6 +145,13 @@ public class H2MConvertUtil {
         if (StringUtils.isNotBlank(element.attr("codecontent"))) {
             s1 = element.attr("codecontent");
         } else {
+            //剔除 代码行前面的数字
+            Elements ulList = element.getElementsByTag("ul");
+            if(ulList!=null){
+                for (Element child : ulList) {
+                    child.remove();
+                }
+            }
             //通用替换方式
             s1 = element.toString().replaceAll("<br>", "\n");
             s1 = s1.replaceAll("<.*?>", "");

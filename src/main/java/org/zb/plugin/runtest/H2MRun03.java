@@ -22,10 +22,24 @@ public class H2MRun03 {
          * https://www.mdnice.com/writing/2a53472ff62e47e78f4d8dc005e91be1
          * https://www.toutiao.com/article/6730619165612179979
          */
+
         System.setProperty("webdriver.chrome.driver", "D:\\develop\\Tools\\chromedriver.exe");
-        MutablePair<String, String> convert = HtmlHandlerUtil.parseHtml("https://blog.csdn.net/crazymakercircle/article/details/129098352?spm=1001.2014.3001.5502", "");
+        MutablePair<String, String> convert = HtmlHandlerUtil.parseHtml("https://blog.51cto.com/u_16213590/8531092", "");
         String title = convert.getLeft();
         String value = convert.getRight();
         IOUtils.write(value, new FileOutputStream("D:\\data\\" + title + ".md"), "utf-8");
+
+//        parseHTML();
+    }
+
+    private static void parseHTML(){
+        String html ="<pre class=\"language-plain prettyprint\" tabindex=\"0\"><code class=\"language-plain has-numbering\" id=\"code_id_0\">long diff = maxOffsetPy - maxPhyOffsetPulling;  // @1\n" +
+                "long memory = (long) (StoreUtil.TOTAL_PHYSICAL_MEMORY_SIZE\n" +
+                "                            * (this.messageStoreConfig.getAccessMessageInMemoryMaxRatio() / 100.0));  // @2\n" +
+                "getResult.setSuggestPullingFromSlave(diff &gt; memory);   // @3</code><ul class=\"pre-numbering\" style=\"\"><li>1.</li><li>2.</li><li>3.</li><li>4.</li></ul></pre>";
+
+        String s = HtmlHandlerUtil.parseHtmlTag(html);
+        System.out.println(s);
+
     }
 }
