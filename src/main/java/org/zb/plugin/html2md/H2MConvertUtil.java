@@ -208,6 +208,8 @@ public class H2MConvertUtil {
             tbody(element, lines);
         } else if ("blockquote".equals(tagName)) {
             blockquote(element, lines);
+        } else if ("button".equals(tagName)) {
+            //忽略解析的tag
         } else {
             MdLine line = getLastLine(lines);
             line.append(getTextContent(element));
@@ -391,13 +393,17 @@ public class H2MConvertUtil {
     }
 
     private static void a(Element element, ArrayList<MdLine> lines) {
+        String url = element.attr("href");
+        if(StringUtils.isBlank(url)){
+            return;
+        }
         MdLine line = getLastLine(lines);
         line.append("[");
         line.append(getTextContent(element));
         line.append("]");
         line.append("(");
-        String url = element.attr("href");
         line.append(url);
+        //TODO 此处a标签 title 是否漏出
         String title = element.attr("title");
         if (StringUtils.isNotBlank(title)) {
             line.append(" \"");
