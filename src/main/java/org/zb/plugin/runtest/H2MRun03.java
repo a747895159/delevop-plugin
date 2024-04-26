@@ -1,7 +1,11 @@
 package org.zb.plugin.runtest;
 
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.zb.plugin.html2md.HtmlHandlerUtil;
+
+import java.io.FileOutputStream;
 
 /**
  * 异步-selenium方式获取页面内容
@@ -19,20 +23,25 @@ public class H2MRun03 {
          * https://www.toutiao.com/article/6730619165612179979
          */
 
-        /*System.setProperty("webdriver.chrome.driver", "D:\\develop\\Tools\\chromedriver.exe");
-        MutablePair<String, String> convert = HtmlHandlerUtil.parseHtml("https://blog.51cto.com/u_16213590/8531092", "");
+        System.setProperty("webdriver.chrome.driver", "D:\\develop\\Tools\\chromedriver.exe");
+        MutablePair<String, String> convert = HtmlHandlerUtil.parseHtml("https://www.jianshu.com/p/0ff1b6a3da36", "");
         String title = convert.getLeft();
         String value = convert.getRight();
-        IOUtils.write(value, new FileOutputStream("D:\\data\\" + title + ".md"), "utf-8");*/
+        IOUtils.write(value, new FileOutputStream("D:\\data\\" + title + ".md"), "utf-8");
+        System.out.println(value);
 
-        parseHTML();
+//        parseHTML();
     }
 
     private static void parseHTML(){
-        String html ="<div class=\"code-toolbar\"><div class=\"hljs-cto\"><div class=\"operation_box\"><button data-clipboard-target=\"#code_id_0\" class=\"copy_btn disable\">登录后复制</button> <a title=\"登录后一键下载全文代码\" class=\"downloadCode\"><i class=\"iconblog blogimport  \"></i></a> </div><pre class=\"language-plain prettyprint\" tabindex=\"0\"><code class=\"language-plain has-numbering\" id=\"code_id_0\">long diff = maxOffsetPy - maxPhyOffsetPulling;  // @1\n" +
-                "long memory = (long) (StoreUtil.TOTAL_PHYSICAL_MEMORY_SIZE\n" +
-                "                            * (this.messageStoreConfig.getAccessMessageInMemoryMaxRatio() / 100.0));  // @2\n" +
-                "getResult.setSuggestPullingFromSlave(diff &gt; memory);   // @3</code><ul class=\"pre-numbering\" style=\"\"><li>1.</li><li>2.</li><li>3.</li><li>4.</li></ul></pre></div><div class=\"toolbar\"></div></div>";
+        String html ="<html><body><blockquote>\n" +
+                "<ol>\n" +
+                "<li><p>producer 向<code>topic</code>发送消息，同一个<code>topic</code>下存在多个队列，<code>RocketMQ</code> 的生产者在默认发送消息时轮询选取其中一个队列进行发送，会导致消息分散到两个队列上</p></li>\n" +
+                "<li><p>broker 上的消息只有在同一个队列中消息才是顺序读取的</p></li>\n" +
+                "<li><p>消费组消费消息时，每一个consumer 单独消费broker 上的一个队列，一般情况下一个consumer 一个进程，不同进程消费不能保证消费的顺序性</p></li>\n" +
+                "<li><p>同一个进程下，通常会配置多个线程消费，多个线程消费的情况下没办法保证消费顺序</p></li>\n" +
+                "</ol>\n" +
+                "</blockquote></body></html>";
 
         String s = HtmlHandlerUtil.parseHtmlTag(html);
         System.out.println(s);

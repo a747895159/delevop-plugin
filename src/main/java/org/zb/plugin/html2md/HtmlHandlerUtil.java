@@ -85,13 +85,12 @@ public class HtmlHandlerUtil {
                 handlerWebSite(ruleEnum, ele, url);
             }
             //获取正文内容元素
-            String content = H2MConvertUtil.getTextContent(ele);
+            String content = H2MConvertUtil.getConvertContent(ele);
             if (content != null && content.contains(CATALOG)) {
                 String[] split = content.split(CATALOG);
                 content = CATALOG + "\n[TOC]\n" + split[1];
             }
             content += "\n \n \n [原文地址](" + url + ") ";
-
             pair.setRight(content);
             pair.setLeft(title.replaceAll("\\\\", "").replaceAll("/", ""));
             return pair;
@@ -103,7 +102,7 @@ public class HtmlHandlerUtil {
     public static String parseHtmlTag(String html) {
         Document ele = Jsoup.parseBodyFragment(html);
         //获取正文内容元素
-        String content = H2MConvertUtil.getTextContent(ele);
+        String content = H2MConvertUtil.getConvertContent(ele);
         if (content != null && content.contains(CATALOG)) {
             String[] split = content.split(CATALOG);
             content = CATALOG + "\n[TOC]\n" + split[1];

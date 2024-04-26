@@ -1,9 +1,13 @@
 package org.zb.plugin.html2md;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author : ZhouBin
  */
 public class MdLine {
+
+    public static final String FIX = "@@@@";
     private int level;
     private MDLineType type;
     private final StringBuilder content;
@@ -78,14 +82,23 @@ public class MdLine {
     @Override
     public String toString() {
         StringBuilder newLine = new StringBuilder();
-        for (int j = 0; j < getLevel(); j++) {
-            newLine.append("    ");
+        String content = getContent();
+        if (StringUtils.isNotBlank(content)) {
+            for (int j = 0; j < getLevel(); j++) {
+                newLine.append(FIX);
+            }
         }
-
         if (type.equals(MDLineType.Ordered)) {
-            newLine.append(1).append(". ");
+            if (StringUtils.isNotBlank(content)) {
+                String temp = content.replaceAll(FIX,"");
+                if (!temp.startsWith("> 1. ") && !temp.startsWith(">> 1. ")) {
+                    if (!temp.startsWith("1. ")) {
+                        newLine.append("1. ");
+                    }
+                }
+            }
         } else if (type.equals(MDLineType.Unordered)) {
-            newLine.append("* ");
+//            newLine.append("* ");
         } else if (type.equals(MDLineType.Head1)) {
             newLine.append("# ");
         } else if (type.equals(MDLineType.Head2)) {
@@ -95,12 +108,24 @@ public class MdLine {
         } else if (type.equals(MDLineType.HR)) {
             newLine.append("----");
         } else if (type.equals(MDLineType.BlockQuote_1)) {
-            newLine.append("> ");
+            if (StringUtils.isNotBlank(content)) {
+                newLine.append("> ");
+            }
         } else if (type.equals(MDLineType.BlockQuote_2)) {
-            newLine.append(">> ");
+            if (StringUtils.isNotBlank(content)) {
+                newLine.append(">> ");
+            }
+        } else if (type.equals(MDLineType.BlockQuote_3)) {
+            if (StringUtils.isNotBlank(content)) {
+                newLine.append("> 1. ");
+            }
+        } else if (type.equals(MDLineType.BlockQuote_4)) {
+            if (StringUtils.isNotBlank(content)) {
+                newLine.append(">> 1. ");
+            }
         }
 
-        newLine.append(getContent());
+        newLine.append(content);
 
         return newLine.toString();
     }
@@ -138,6 +163,6 @@ public class MdLine {
         /**
          *
          */
-        Ordered, Unordered, None, Head1, Head2, Head3, HR, TR, BlockQuote_1, BlockQuote_2
+        Ordered, Unordered, None, Head1, Head2, Head3, HR, TR, BlockQuote_1, BlockQuote_2, BlockQuote_3, BlockQuote_4
     }
 }

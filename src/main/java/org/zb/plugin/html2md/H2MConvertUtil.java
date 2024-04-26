@@ -92,7 +92,15 @@ public class H2MConvertUtil {
         }
     }
 
-    public static String getTextContent(Element element) {
+    public static String getConvertContent(Element element) {
+        String textContent = getTextContent(element);
+        if (StringUtils.isNotBlank(textContent)) {
+            textContent = textContent.replaceAll(MdLine.FIX, "   ");
+        }
+        return textContent;
+    }
+
+    private static String getTextContent(Element element) {
         if (element == null) {
             return null;
         }
@@ -123,7 +131,7 @@ public class H2MConvertUtil {
         int blankLines = 0;
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i).toString().trim();
+            String line = filterLine(lines.get(i).toString().trim());
             if (StringUtils.isBlank(line)) {
                 blankLines++;
             } else {
@@ -139,6 +147,22 @@ public class H2MConvertUtil {
         return result.toString().replaceAll("\\[]\\(\\)", "");
     }
 
+    private static String filterLine(String line) {
+        String[] preArr = {MdLine.FIX + "> ", MdLine.FIX + ">> "
+                , MdLine.FIX + MdLine.FIX + "> ", MdLine.FIX + MdLine.FIX + ">> "};
+
+        for (String pre : preArr) {
+            if (line.startsWith(pre)) {
+                if (line.startsWith(pre + "1. ")) {
+                    pre = pre + "1. ";
+                }
+                return pre + line.substring(pre.length()).replaceAll(pre, "");
+            }
+        }
+        return line;
+    }
+
+
     public static String getCodeContent(Element element) {
         String s1;
         //bilibili特殊取值方式
@@ -147,7 +171,7 @@ public class H2MConvertUtil {
         } else {
             //剔除 代码行前面的数字
             Elements ulList = element.getElementsByTag("ul");
-            if(ulList!=null){
+            if (ulList != null) {
                 for (Element child : ulList) {
                     child.remove();
                 }
@@ -219,14 +243,21 @@ public class H2MConvertUtil {
 
     private static MdLine getLastLine(ArrayList<MdLine> lines) {
         MdLine line;
+        int level = 0;
         if (lines.size() > 0) {
             line = lines.get(lines.size() - 1);
         } else {
             MdLine.MDLineType type = MdLine.MDLineType.None;
             if (blockQuoteIndex > -1) {
-                type = blockQuoteIndex == 1 ? MdLine.MDLineType.BlockQuote_2 : MdLine.MDLineType.BlockQuote_1;
+                if (orderedList) {
+                    type = blockQuoteIndex == 1 ? MdLine.MDLineType.BlockQuote_4 : MdLine.MDLineType.BlockQuote_3;
+                    level = blockQuoteIndex == 1 ? 2 : 1;
+                } else {
+                    type = blockQuoteIndex == 1 ? MdLine.MDLineType.BlockQuote_2 : MdLine.MDLineType.BlockQuote_1;
+                }
+
             }
-            line = new MdLine(type, 0, "");
+            line = new MdLine(type, level, "");
             lines.add(line);
         }
 
@@ -329,13 +360,11 @@ public class H2MConvertUtil {
         if (StringUtils.isNotBlank(line.getContent().trim())) {
             lines.add(new MdLine(type, 0, ""));
         }
-        lines.add(new MdLine(type, 0, ""));
         lines.add(new MdLine(type, 0, getTextContent(element).replaceAll("&nbsp;", "")));
         lines.add(new MdLine(type, 0, ""));
         if (StringUtils.isNotBlank(line.getContent().trim())) {
             lines.add(new MdLine(type, 0, ""));
         }
-
     }
 
     private static void br(ArrayList<MdLine> lines) {
@@ -394,7 +423,7 @@ public class H2MConvertUtil {
 
     private static void a(Element element, ArrayList<MdLine> lines) {
         String url = element.attr("href");
-        if(StringUtils.isBlank(url)){
+        if (StringUtils.isBlank(url)) {
             return;
         }
         MdLine line = getLastLine(lines);
@@ -440,7 +469,7 @@ public class H2MConvertUtil {
     private static void code(Element element, ArrayList<MdLine> lines) {
 
         String codeContent = getCodeContent(element).replace("/#", "#");
-        String code = codeContent.trim().replaceAll("&amp;","&");
+        String code = codeContent.trim().replaceAll("&amp;", "&");
         if (code.contains("\n")) {
             lines.add(new MdLine(MdLine.MDLineType.None, 0, ""));
             MdLine line = new MdLine(MdLine.MDLineType.None, 0, "    ");
@@ -471,7 +500,11 @@ public class H2MConvertUtil {
         indentation++;
         orderedList = true;
         MdLine line = new MdLine(MdLine.MDLineType.None, 0, "");
-        line.append(getTextContent(element));
+        String textContent = getTextContent(element);
+        if (StringUtils.isNotBlank(textContent)) {
+            textContent = textContent.trim();
+        }
+        line.append(textContent);
         lines.add(line);
         indentation--;
         lines.add(new MdLine(MdLine.MDLineType.None, 0, ""));
@@ -479,12 +512,14 @@ public class H2MConvertUtil {
 
     private static void li(Element element, ArrayList<MdLine> lines) {
         MdLine line;
+        String textContent = getTextContent(element);
+        if (StringUtils.isNotBlank(textContent)) {
+            textContent = textContent.trim();
+        }
         if (orderedList) {
-            line = new MdLine(MdLine.MDLineType.Ordered, indentation,
-                    getTextContent(element));
+            line = new MdLine(MdLine.MDLineType.Ordered, indentation, textContent);
         } else {
-            line = new MdLine(MdLine.MDLineType.Unordered, indentation,
-                    getTextContent(element));
+            line = new MdLine(MdLine.MDLineType.Unordered, indentation, textContent);
         }
         lines.add(line);
     }
