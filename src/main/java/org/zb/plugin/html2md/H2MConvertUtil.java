@@ -65,9 +65,7 @@ public class H2MConvertUtil {
     }
 
     public static String convertHtml(String html, String charset) {
-        Document doc = Jsoup.parse(html, charset);
-
-        return parseDocument(doc);
+        return convert(html, charset);
     }
 
     public static String convertFile(File file, String charset) throws IOException {
@@ -116,10 +114,10 @@ public class H2MConvertUtil {
                 MdLine line = getLastLine(lines);
                 if (StringUtils.isBlank(line.getContent())) {
                     if (!textNode.isBlank()) {
-                        line.append(textNode.text().replaceAll("#", "/#").replaceAll("\\*", "/\\*"));
+                        line.append(textNode.text().replaceAll("#", "/#").replaceAll("\\*", "/*"));
                     }
                 } else {
-                    line.append(textNode.text().replaceAll("#", "/#").replaceAll("\\*", "/\\*"));
+                    line.append(textNode.text().replaceAll("#", "/#").replaceAll("\\*", "/*"));
                 }
 
             } else if (child instanceof Element) {
@@ -245,7 +243,7 @@ public class H2MConvertUtil {
     private static MdLine getLastLine(ArrayList<MdLine> lines) {
         MdLine line;
         int level = 0;
-        if (lines.size() > 0) {
+        if (!lines.isEmpty()) {
             line = lines.get(lines.size() - 1);
         } else {
             MdLine.MDLineType type = MdLine.MDLineType.None;

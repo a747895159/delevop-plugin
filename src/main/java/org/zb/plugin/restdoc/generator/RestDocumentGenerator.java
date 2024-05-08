@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class RestDocumentGenerator {
 
-    private RestFulDefinition definition;
+    private final RestFulDefinition definition;
 
     public RestDocumentGenerator(RestFulDefinition definition) {
         this.definition = definition;
@@ -27,24 +27,21 @@ public class RestDocumentGenerator {
     public String generate() {
         ToolUtil.logInfo("definition\n", new Gson().toJson(definition));
 
-        StringBuilder docContent = new StringBuilder();
-        docContent.append(interfaceNamePart());
-        docContent.append("\n");
-        docContent.append(urlPart());
-        docContent.append("\n");
-        docContent.append(methodPart());
-        docContent.append("\n");
-        docContent.append("\n");
-
-        docContent.append(requestPart());
-        docContent.append("\n");
-        docContent.append("\n");
-        docContent.append(requestJsonExample());
-        docContent.append(responsePart());
-        docContent.append("\n");
-        docContent.append("\n");
-        docContent.append(responseJsonExample());
-        return docContent.toString();
+        return interfaceNamePart() +
+                "\n" +
+                urlPart() +
+                "\n" +
+                methodPart() +
+                "\n" +
+                "\n" +
+                requestPart() +
+                "\n" +
+                "\n" +
+                requestJsonExample() +
+                responsePart() +
+                "\n" +
+                "\n" +
+                responseJsonExample();
     }
 
     public String interfaceNamePart() {
@@ -56,15 +53,11 @@ public class RestDocumentGenerator {
     }
 
     public String urlPart() {
-        StringBuilder sb = new StringBuilder("**请求URL：** \n");
-        sb.append("- `" + this.definition.getUri() + " `\n");
-        return sb.toString();
+        return "**请求URL：** \n" + "- `" + this.definition.getUri() + " `\n";
     }
 
     public String methodPart() {
-        StringBuilder sb = new StringBuilder("**请求方式：**\n");
-        sb.append("- " + this.definition.getHttpMethod() + "   " + this.definition.getRequestBodyTypeEnum().getDesc() + "\n");
-        return sb.toString();
+        return "**请求方式：**\n" + "- " + this.definition.getHttpMethod() + "   " + this.definition.getRequestBodyTypeEnum().getDesc() + "\n";
     }
 
     public String requestPart() {
@@ -107,7 +100,7 @@ public class RestDocumentGenerator {
 
 
     public String requestJsonExample() {
-        if (definition.getRequest() != null && definition.getRequest().size() > 0 && definition.getRequestBodyTypeEnum() == BodyTypeEnum.RequestBody) {
+        if (definition.getRequest() != null && !definition.getRequest().isEmpty() && definition.getRequestBodyTypeEnum() == BodyTypeEnum.RequestBody) {
             Map<String, Object> map = parseVal(definition.getRequest());
             /*
              * @RequestBody 目前只支持单对象注解 ,列表中必有值
@@ -122,7 +115,7 @@ public class RestDocumentGenerator {
 
 
     public String responseJsonExample() {
-        if (definition.getResponse() != null && definition.getResponse().size() > 0) {
+        if (definition.getResponse() != null && !definition.getResponse().isEmpty()) {
             Map<String, Object> map = parseVal(definition.getResponse());
             Object o = isArray(definition.getMethodDefinition().getRtnTypeEnum()) ? Lists.newArrayList(map) : map;
             return toJson("响应示例",o);
@@ -130,14 +123,13 @@ public class RestDocumentGenerator {
         return "";
     }
     private String toJson(String title,Object o){
-        StringBuilder sb = new StringBuilder("### ").append(title).append("\n \n");
-        sb.append("```\n");
-        sb.append(ToolUtil.toPrettyJson(o)).append("\n");
-        sb.append("\n");
-        sb.append("```\n");
-        sb.append("\n");
-        sb.append("\n");
-        return sb.toString();
+        return "### " + title + "\n \n" +
+                "```\n" +
+                ToolUtil.toPrettyJson(o) + "\n" +
+                "\n" +
+                "```\n" +
+                "\n" +
+                "\n";
     }
 
     private boolean isArray(TransTypeEnum transTypeEnum) {
@@ -148,7 +140,7 @@ public class RestDocumentGenerator {
         Map<String, Object> map = new LinkedHashMap<>();
         for (FieldDefinition fd : list) {
             //此处属性名全部小写
-            if (fd.getSubFieldDefinitions() != null && fd.getSubFieldDefinitions().size() > 0) {
+            if (fd.getSubFieldDefinitions() != null && !fd.getSubFieldDefinitions().isEmpty()) {
                 if (fd.getType().contains(BaseTypeConstant.ARRAY_SUFFIX)) {
                     map.put(fd.getName().toLowerCase(), Lists.newArrayList(parseVal(fd.getSubFieldDefinitions())));
                 } else {
