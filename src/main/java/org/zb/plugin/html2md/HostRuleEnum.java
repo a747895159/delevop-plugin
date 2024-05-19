@@ -11,7 +11,7 @@ public enum HostRuleEnum {
     /**
      *
      */
-    CSDN("blog.csdn.net", EleTagEnum.ID, "article_content", true, "-CSDN博客"),
+    CSDN("blog.csdn.net", EleTagEnum.ID, "article_content", false, "-CSDN博客"),
 
     CNBLOG("cnblogs.com", EleTagEnum.ID, "post_detail", true, " - 博客园"),
 
