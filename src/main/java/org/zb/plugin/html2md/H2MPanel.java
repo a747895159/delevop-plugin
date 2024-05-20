@@ -15,6 +15,7 @@ import org.zb.plugin.putil.ProjectUtils;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -32,6 +33,7 @@ public class H2MPanel extends DialogWrapper {
     private JButton googleExeChoose;
     private JButton filePathChoose;
     private JTextArea textArea1;
+    private JComboBox asyncExecBox;
 
     /**
      * 项目对象
@@ -73,6 +75,10 @@ public class H2MPanel extends DialogWrapper {
             Messages.showWarningDialog("请选择文件目录!", "配置错误");
             return;
         }
+        Boolean asyncExecFlag = null;
+        if (asyncExecBox.getSelectedItem() == null) {
+            asyncExecFlag = ExecType.getAsyncExecFlag((String) asyncExecBox.getSelectedItem());
+        }
         String inputText = textArea1.getText().trim();
         // 针对Linux系统路径做处理
         filePath = filePath.replace("\\", "/");
@@ -90,7 +96,7 @@ public class H2MPanel extends DialogWrapper {
         AtomicInteger sucNum = new AtomicInteger(0);
         try {
             if (inputText.startsWith("http")) {
-                HtmlHandlerUtil.outputFileByUrlList(filePath, inputText, sucNum);
+                HtmlHandlerUtil.outputFileByUrlList(filePath, inputText, sucNum, asyncExecFlag);
             } else {
                 HtmlHandlerUtil.outputFileByTag(filePath, inputText);
             }
@@ -155,6 +161,44 @@ public class H2MPanel extends DialogWrapper {
         }
         if (StringUtils.isNotBlank(defaultFilePath)) {
             fileNameInput.setText(defaultFilePath);
+        }
+        asyncExecBox.setModel(new DefaultComboBoxModel<>(Arrays.stream(ExecType.values()).map(ExecType::getDesc).toArray()));
+        asyncExecBox.setSelectedIndex(0);
+    }
+
+    public enum ExecType {
+
+        E0("默认", null),
+        E1("同步", true),
+        E2("异步", false);
+
+        /**
+         *
+         */
+        public final String desc;
+
+        public final Boolean execFlag;
+
+        ExecType(String desc, Boolean execFlag) {
+            this.desc = desc;
+            this.execFlag = execFlag;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public Boolean getExecFlag() {
+            return execFlag;
+        }
+
+        public static Boolean getAsyncExecFlag(String desc) {
+            for (ExecType item : ExecType.values()) {
+                if (StringUtils.equals(desc, item.getDesc())) {
+                    return item.getExecFlag();
+                }
+            }
+            return null;
         }
     }
 }

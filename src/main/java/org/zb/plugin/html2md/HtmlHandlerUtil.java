@@ -31,9 +31,9 @@ public class HtmlHandlerUtil {
     /**
      * 根据URL规则进行解析
      */
-    public static MutablePair<String, String> parseHtml(String url) {
+    public static MutablePair<String, String> parseHtml(String url, Boolean asyncExecFlag) {
         HostRuleEnum ruleEnum = HostRuleEnum.findHost(url);
-        return parseRemoteUrlHtml(url, ruleEnum, null);
+        return parseRemoteUrlHtml(url, ruleEnum, null, asyncExecFlag);
 
     }
 
@@ -42,15 +42,16 @@ public class HtmlHandlerUtil {
      */
     public static MutablePair<String, String> parseHtml(String url, String eleId) {
         HostRuleEnum ruleEnum = HostRuleEnum.findHost(url);
-        return parseRemoteUrlHtml(url, ruleEnum, eleId);
+        return parseRemoteUrlHtml(url, ruleEnum, eleId, ruleEnum.getSyncFlag());
     }
 
-    private static MutablePair<String, String> parseRemoteUrlHtml(String url, HostRuleEnum ruleEnum, String eleId) {
+    private static MutablePair<String, String> parseRemoteUrlHtml(String url, HostRuleEnum ruleEnum, String eleId, Boolean asyncExecFlag) {
         try {
             MutablePair<String, String> pair = new MutablePair<>();
             // 获取正文内容，
             Document doc;
-            if (BooleanUtils.isTrue(ruleEnum.getSyncFlag())) {
+            boolean asyncFlag = asyncExecFlag == null ? ruleEnum.getSyncFlag() : asyncExecFlag;
+            if (BooleanUtils.isTrue(asyncFlag)) {
                 // 获取正文内容，
 //                doc = Jsoup.parse(new URL(url), 5000);
                 Connection connect = Jsoup.connect(url);
@@ -210,10 +211,10 @@ public class HtmlHandlerUtil {
         return parse;
     }
 
-    public static void outputFileByUrlList(String filePath, String input, AtomicInteger sucNum) throws Exception {
+    public static void outputFileByUrlList(String filePath, String input, AtomicInteger sucNum, boolean asyncExecFlag) throws Exception {
         String[] split = input.split("\n");
         for (String url : split) {
-            MutablePair<String, String> mutablePair = parseHtml(url);
+            MutablePair<String, String> mutablePair = parseHtml(url, asyncExecFlag);
             String title = mutablePair.getLeft();
             String value = mutablePair.getRight();
 
