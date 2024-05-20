@@ -211,7 +211,7 @@ public class HtmlHandlerUtil {
         return parse;
     }
 
-    public static void outputFileByUrlList(String filePath, String input, AtomicInteger sucNum, boolean asyncExecFlag) throws Exception {
+    public static void outputFileByUrlList(String filePath, String input, AtomicInteger sucNum, Boolean asyncExecFlag) throws Exception {
         String[] split = input.split("\n");
         for (String url : split) {
             MutablePair<String, String> mutablePair = parseHtml(url, asyncExecFlag);

@@ -76,7 +76,7 @@ public class H2MPanel extends DialogWrapper {
             return;
         }
         Boolean asyncExecFlag = null;
-        if (asyncExecBox.getSelectedItem() == null) {
+        if (asyncExecBox.getSelectedItem() != null) {
             asyncExecFlag = ExecType.getAsyncExecFlag((String) asyncExecBox.getSelectedItem());
         }
         String inputText = textArea1.getText().trim();
