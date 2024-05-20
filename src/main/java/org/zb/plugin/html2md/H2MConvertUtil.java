@@ -175,7 +175,6 @@ public class H2MConvertUtil {
                 }
             }
             //通用替换方式
-            s1 = element.toString().replaceAll("<br>", "\n");
             s1= element.toString().replaceAll("<br.*?>", "\n");
             s1 = s1.replaceAll("<.*?>", "");
         }
