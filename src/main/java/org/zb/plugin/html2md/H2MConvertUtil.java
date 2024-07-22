@@ -1,5 +1,6 @@
 package org.zb.plugin.html2md;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,6 +31,7 @@ public class H2MConvertUtil {
     private static int blockQuoteIndex = -1;
     private static boolean orderedList = false;
 
+    private static List<String> ingoreTagList = Lists.newArrayList("figcaption", "button");
 
     public static String fetchTitle(Document doc) {
         String title = "default";
@@ -175,7 +177,7 @@ public class H2MConvertUtil {
                 }
             }
             //通用替换方式
-            s1= element.toString().replaceAll("<br.*?>", "\n");
+            s1 = element.toString().replaceAll("<br.*?>", "\n");
             s1 = s1.replaceAll("<.*?>", "");
         }
 
@@ -230,9 +232,9 @@ public class H2MConvertUtil {
             tbody(element, lines);
         } else if ("blockquote".equals(tagName)) {
             blockquote(element, lines);
-        } else if ("button".equals(tagName)) {
+        } else if (ingoreTagList.contains(tagName)) {
             //忽略解析的tag
-        } else {
+        }else {
             MdLine line = getLastLine(lines);
             line.append(getTextContent(element));
         }
@@ -424,6 +426,9 @@ public class H2MConvertUtil {
         if (StringUtils.isBlank(url)) {
             return;
         }
+        if (url.startsWith("#")) {
+            return;
+        }
         MdLine line = getLastLine(lines);
         line.append("[");
         line.append(getTextContent(element));
@@ -444,7 +449,8 @@ public class H2MConvertUtil {
         MdLine line = new MdLine(MdLine.MDLineType.None, 0, "");
 
         line.append("![");
-        String alt = element.attr("alt");
+//        String alt = element.attr("alt");
+        String alt = "";
         line.append(alt);
         line.append("]");
         line.append("(");
@@ -509,6 +515,16 @@ public class H2MConvertUtil {
     }
 
     private static void li(Element element, ArrayList<MdLine> lines) {
+        try {
+            Elements children = element.children();
+            for (Element child : children){
+                if(StringUtils.equals(child.tag().getName(), "a")){
+                    child.remove();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         MdLine line;
         String textContent = getTextContent(element);
         if (StringUtils.isNotBlank(textContent)) {
