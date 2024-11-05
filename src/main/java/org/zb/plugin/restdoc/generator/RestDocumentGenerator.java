@@ -139,16 +139,15 @@ public class RestDocumentGenerator {
     private static Map<String, Object> parseVal(List<FieldDefinition> list) {
         Map<String, Object> map = new LinkedHashMap<>();
         for (FieldDefinition fd : list) {
-            //此处属性名全部小写
             if (fd.getSubFieldDefinitions() != null && !fd.getSubFieldDefinitions().isEmpty()) {
                 if (fd.getType().contains(BaseTypeConstant.ARRAY_SUFFIX)) {
-                    map.put(fd.getName().toLowerCase(), Lists.newArrayList(parseVal(fd.getSubFieldDefinitions())));
+                    map.put(fd.getName(), Lists.newArrayList(parseVal(fd.getSubFieldDefinitions())));
                 } else {
-                    map.put(fd.getName().toLowerCase(), parseVal(fd.getSubFieldDefinitions()));
+                    map.put(fd.getName(), parseVal(fd.getSubFieldDefinitions()));
                 }
 
             } else {
-                map.put(fd.getName().toLowerCase(), fd.getVal());
+                map.put(fd.getName(), fd.getVal());
             }
         }
         return map;

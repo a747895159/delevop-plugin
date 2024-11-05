@@ -18,8 +18,7 @@ public class ContentShowUtil {
         }
         for (FieldDefinition definition : fieldDefinitions) {
             String layerChat = getLayerChat(definition.getLayer());
-            //此处属性名全部小写
-            sb.append("|").append(layerChat).append(definition.getName().toLowerCase());
+            sb.append("|").append(layerChat).append(definition.getName());
             sb.append("|").append(definition.getType());
             if (requireFlag) {
                 sb.append("|").append(definition.isRequire() ? "是" : "否");
