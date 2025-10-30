@@ -1,8 +1,8 @@
 <idea-plugin>
-    <id>com.person.develop.plugin</id>
-    <name>developPlugin</name>
+    <id>com.person.zb.develop.plugin</id>
+    <name>developDocTool</name>
     <version>1.0.3</version>
-    <vendor email="747895159@qq.com" url="#">developPlugin</vendor>
+    <vendor email="747895159@qq.com" url="#">747895159</vendor>
     <description>
         <![CDATA[
         <tag> develop plugin,code generate,code tools</tag>
