@@ -42,8 +42,8 @@ intellij {
 }
 
 
-group 'com.person.develop.plugin'
-version '1.0.3'
+group 'com.person.zb.develop.plugin'
+version '1.0.4'
 
 sourceCompatibility = 1.8
 

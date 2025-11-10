@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.person.zb.develop.plugin</id>
     <name>developDocTool</name>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <vendor email="747895159@qq.com" url="#">747895159</vendor>
     <description>
         <![CDATA[
@@ -16,9 +16,10 @@
 
     <change-notes>
         <![CDATA[
-      <li>1.0.0 - init Related functions</li>
+      <li>1.0.1 - init Related functions</li>
       <li>1.0.2 - optimization notes</li>
       <li>1.0.3 - add html to markdown</li>
+      <li>1.0.4 - add sql tool</li>
     ]]>
     </change-notes>
 
@@ -58,8 +59,8 @@
                     icon="AllIcons.Actions.Checked"/>
             <action class="org.zb.plugin.action.InsertSqlInitAction" id="InsertSqlInitAction" text="InsertSql初始化"
                     icon="AllIcons.Actions.Checked"/>
-            <action class="org.zb.plugin.action.ChatGTPAction" id="ChatGTPAction" text="ChatGPT"
-                    icon="AllIcons.Actions.Checked"/>
+<!--            <action class="org.zb.plugin.action.ChatGTPAction" id="ChatGTPAction" text="ChatGPT"-->
+<!--                    icon="AllIcons.Actions.Checked"/>-->
             <action class="org.zb.plugin.action.WxyyGTPAction" id="WxyyGTPAction" text="文心一言"
                     icon="AllIcons.Actions.Checked"/>
         </group>
@@ -71,11 +72,11 @@
           <action class="org.zb.plugin.bean2Json.Java2MarkDownDocAction" id="menu_comment" text="Must Input" icon="AllIcons.Actions.Checked"/>
         </group>
         -->
-        <group id="org.zb.plugin.group.extconfig.ExtConfigGroup____001" class="org.zb.plugin.group.extconfig.ExtConfigGroup" text="测试组001"
-               popup="true" icon="AllIcons.Actions.GroupByPrefix">
-            <!--生成代码菜单-->
-            <add-to-group group-id="DevelopPlugin" anchor="first"/>
-        </group>
+<!--        <group id="org.zb.plugin.group.extconfig.ExtConfigGroup____001" class="org.zb.plugin.group.extconfig.ExtConfigGroup" text="测试组001"-->
+<!--               popup="true" icon="AllIcons.Actions.GroupByPrefix">-->
+<!--            &lt;!&ndash;生成代码菜单&ndash;&gt;-->
+<!--            <add-to-group group-id="DevelopPlugin" anchor="first"/>-->
+<!--        </group>-->
 
 
     </actions>
