@@ -22,7 +22,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="191.0"/>
+    <idea-version since-build="202.0"/>
     <depends>com.intellij.java</depends>
     <depends>com.intellij.modules.java</depends>
 
