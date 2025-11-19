@@ -200,7 +200,7 @@ public class H2MConvertUtil {
         Tag tag = element.tag();
 
         String tagName = tag.getName();
-        if ("div".equals(tagName)) {
+        if ("div".equals(tagName) || "section".equals(tagName)) {
             div(element, lines);
         } else if ("p".equals(tagName)) {
             p(element, lines);
